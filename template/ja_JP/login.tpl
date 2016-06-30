@@ -1,5 +1,5 @@
 <form action="." method="post">
-{if count($erroes)}
+{if count($errors)}
 	<ul>
 	{foreach from=$errors item=error}
 		<li>{$error}</li>
