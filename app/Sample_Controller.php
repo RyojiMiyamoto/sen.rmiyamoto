@@ -16,6 +16,7 @@ set_include_path(implode(PATH_SEPARATOR, array($app, $lib)) . PATH_SEPARATOR . g
 
 require_once BASE . '/vendor/autoload.php';
 require_once 'Sample_Error.php';
+require_once 'Sample_UserManager.php';
 require_once 'Sample_ActionClass.php';
 require_once 'Sample_ActionForm.php';
 require_once 'Sample_ViewClass.php';
