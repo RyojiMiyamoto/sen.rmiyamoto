@@ -94,12 +94,12 @@ class Sample_Action_LoginDo extends Sample_ActionClass
 		return 'login';
 	}
         /**
-        if ($this->af->validate() > 0) {
-            // forward to error view (this is sample)
-            // return 'error';
-	    // return 'login';
-        }
-        $sample = $this->af->get('sample');
+        *if ($this->af->validate() > 0) {
+        *    // forward to error view (this is sample)
+        *    // return 'error';
+	*    // return 'login';
+        *}
+        *$sample = $this->af->get('sample');
         */
         return null;
     }
@@ -112,7 +112,6 @@ class Sample_Action_LoginDo extends Sample_ActionClass
      */
     public function perform()
     {
-	die($this->af->get('mailaddress'));
         return 'index';
     }
 }
