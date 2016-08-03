@@ -1,5 +1,5 @@
 CREATE DATABASE db_miyamoto;
 CREATE TABLE usertable (
-address charcter varying
+address charcter varying,
 pass charcter varying
 );
