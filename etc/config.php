@@ -11,6 +11,7 @@ $config = array(
     // debug
     // (to enable ethna_info and ethna_unittest, turn this true)
     'debug' => false,
+    'dsn' => 'mysql://user:pass@unix+localhost/dbname',
 
     // db
     // sample-1: single db

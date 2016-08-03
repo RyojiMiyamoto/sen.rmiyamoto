@@ -19,4 +19,7 @@
 	<p>
 	<input type="submit" name="action_login_do" value="ログイン">
 	</p>
+	<p>
+	<input type="submit" name="action_adduser_go" value="新規登録">
+	</p>
 </form>

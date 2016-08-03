@@ -1,0 +1,136 @@
+[33mcommit c9068e0822c76470b49e06612ee47af4543058ac[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jul 7 01:18:20 2016 +0000
+
+    除外修正
+
+[33mcommit b8e9c54349c61fe40e6313eb95482f76085de945[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jul 7 01:14:08 2016 +0000
+
+    除外ファイルの設定
+
+[33mcommit e1263f464b95e438bba8cd20ecdb81b0224d42c6[m
+Merge: dc7ad7d b0910f5
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 16:52:45 2016 +0900
+
+    Merge pull request #7 from RyojiMiyamoto/login_p3_fix
+    
+    スペルミス修正
+
+[33mcommit b0910f58affab89f1f75b1a2ccdaa820b47f8432[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 07:49:11 2016 +0000
+
+    スペルミス修正
+    template/ja_JP/login.tpl:
+
+[33mcommit dc7ad7db92c161509a8369bd118cd5d83697cebc[m
+Merge: e829bc1 2749f48
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 16:09:11 2016 +0900
+
+    Merge pull request #6 from RyojiMiyamoto/login_p5
+    
+    実用的なアプリケーション開発 5 ビジネスロジック(実装)
+
+[33mcommit 2749f48119310838b973c32cd8075cc491b3c2b0[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 07:03:09 2016 +0000
+
+    実用的なアプリケーション開発 5 ビジネスロジック(実装)
+    4は設計のためコード変更なし4は設計のためコード変更なし4は設計のためコード変更なし4は設計のためコード変更なし
+
+[33mcommit e829bc1d8839df4cfff84769a02c86983b20c78f[m
+Merge: b887e51 a152fbf
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 15:20:39 2016 +0900
+
+    Merge pull request #5 from RyojiMiyamoto/login_p3
+    
+    実用的なアプリケーション開発 3 バリデーションエラー
+
+[33mcommit a152fbf4e48c11a09a87d37fef475b844d6bdd80[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 06:18:27 2016 +0000
+
+    実用的なアプリケーション開発 3 バリデーションエラー
+
+[33mcommit b887e51953a17aa35eb894f35dda38247ec93ab3[m
+Merge: b9868e7 781ac82
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 14:45:45 2016 +0900
+
+    Merge pull request #4 from RyojiMiyamoto/login_p2_fix
+    
+    ログイン時にプログラムが終了しないように修正
+
+[33mcommit 781ac82a40ae3e318dd35c23ff8175adae60d2ba[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 05:40:45 2016 +0000
+
+    ログイン時にプログラムが終了しないように修正
+    app/action/Login/Do.php
+    リムーブ:die($this->af->get('mailaddress'));
+
+[33mcommit b9868e7aef1ae79a5a48fa95b86b464aeda9dbcb[m
+Merge: a1500de 440f5a7
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 12:53:03 2016 +0900
+
+    Merge pull request #3 from RyojiMiyamoto/login_p1_fix
+    
+    template/ja_JP/login.tpl
+
+[33mcommit 440f5a72f7ff64a3ae3e3892d5456c37a60c8c44[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 03:48:00 2016 +0000
+
+    template/ja_JP/login.tpl
+    タグの打ち間違い
+    <input type="submit" name="action_login_do" value="ログイン">
+    old : -
+    new : =
+
+[33mcommit a1500de26317e761bfefca69f9164923b745e223[m
+Merge: 895dc3d 19af5a2
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 12:25:12 2016 +0900
+
+    Merge pull request #2 from RyojiMiyamoto/login_p2
+    
+    実用的なアプリケーション開発 2 (ログイン処理)
+
+[33mcommit 19af5a296be399e1f6e47e9548c42680b5cb9302[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 03:22:26 2016 +0000
+
+    実用的なアプリケーション開発 2 (ログイン処理)
+
+[33mcommit 895dc3d4409d0a44deb5893a74a79f467c48696c[m
+Merge: fc0c0a4 66b43e4
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 11:06:35 2016 +0900
+
+    Merge pull request #1 from RyojiMiyamoto/login_p1
+    
+    実用的なアプリケーション開発 1 (ログイン画面)
+
+[33mcommit 66b43e49365a719ac031295665d38bd7fdc99de3[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 30 01:54:01 2016 +0000
+
+    実用的なアプリケーション開発 1 (ログイン画面)
+
+[33mcommit fc0c0a4e5d6a330b48e4f2ef98a9c4b78f8e0152[m
+Author: RyojiMiyamoto <sen.miyamotoryoji@gmail.com>
+Date:   Thu Jun 23 08:32:07 2016 +0000
+
+    ver.1.0
+
+[33mcommit 2fe4f90a27f8fbff8c847bfbb48ef8f82ffb428d[m
+Author: vagrant <vagrant@localhost.localdomain>
+Date:   Thu Jun 23 08:13:28 2016 +0000
+
+    first commit
