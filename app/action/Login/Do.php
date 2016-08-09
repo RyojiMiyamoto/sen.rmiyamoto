@@ -112,6 +112,7 @@ class Sample_Action_LoginDo extends Sample_ActionClass
      */
     public function perform()
     {
+	include('adodb/adodb.inc.php');
 	$um = new Sample_UserManager();
 	$result = $um->auth($this->af->get('mailaddress'), $this->af->get('password'), $this->backend);
 	if (Ethna::isError($result)) {

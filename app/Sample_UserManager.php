@@ -6,21 +6,29 @@ class Sample_UserManager
 	{			
 		// DB接続
 		$db = $backend->getDB();
-		// DBからユーザー情報を取得
-		$userdata = $db->GetRow('SELECT address FROM usertable WHERE address = $mailaddress ORDER BY adduser');
-		if(!$userdata)
-		{
-			var_dump('ユーザー名が違います');
+		
+		// DBからユーザーのメールアドレスを取得
+		$dbMail = $db->GetRow("SELECT address FROM usertable WHERE address = '$mailaddress'");
+		// DB内のメールアドレスを取得できたか確認
+		if($dbMail === false){
+			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
 		}
-		// テスト
-		else
-		{
-			var_dump($userdata);
+		// 登録されているメールアドレスかチェック
+		if(!$dbMail){
+			return  Ethna::raiseNotice('メールアドレスが間違っています',E_SAMPLE_AUTH);
 		}
-		if ($mailaddress != $password) {
-			return Ethna::raiseNotice('メールアドレスまたはパスワードが正しくありません', E_SAMPLE_AUTH);
+		
+		// DBからユーザーのパスワードを取得
+		$dbPassHash = $db->GetRow("SELECT pass FROM usertable WHERE address = '$mailaddress'");
+		// DB内のパスワードが取得できたか
+		if($dbPassHash === false){
+			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
 		}
-		$db->disconnect();
+		// パスワード認証
+		if(hash_equals($dbPassHash, crypt($password, $dbPassHash)) == false){
+			return Ethna::raiseNotice('パスワードが間違っています',E_SAMPLE_AUTH);
+		}
+
 		// 成功時はnullを返す
 		return null;
 	}
