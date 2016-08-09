@@ -3,12 +3,9 @@ class Sample_UserManager
 {
 	// DBからの認証
 	public function auth($mailaddress, $password, $backend)
-	{	
-		include('adodb/adodb.inc.php');	
+	{			
 		// DB接続
 		$db = $backend->getDB();
-		//$errstr = var_export($db,ture);
-		//error_log($errstr);
 		// DBからユーザー情報を取得
 		$userdata = $db->GetRow('SELECT address FROM usertable WHERE address = $mailaddress ORDER BY adduser');
 		if(!$userdata)

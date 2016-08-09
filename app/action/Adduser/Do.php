@@ -96,6 +96,7 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
      */
     public function prepare()
     {
+	include('adodb/adodb.inc.php');
         /**
         if ($this->af->validate() > 0) {
             // forward to error view (this is sample)
@@ -103,6 +104,7 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
         }
         $sample = $this->af->get('sample');
         */
+
         // 空欄がないかチェック
         if ($this->af->validate() > 0) {
             return 'adduser';
@@ -111,8 +113,27 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
         if ($this->af->get('password') != $this->af->get('password_chk')){
             $this->af->setApp('samepass',true);
             return 'adduser';
-        } 
+        }
+	// DBに接続
+	$db = $this->backend->getDB();
 
+        // ユーザーテーブルを取得
+        $mailaddress = $this->af->get('mailaddress');
+        $userdata = $db->GetRow("SELECT address FROM usertable WHERE address = '$mailaddress'");
+
+        // データを取得できたか確認
+        if(!$userdata){
+            $this->af->setApp('dbNotConection','true');
+            return 'adduser';
+        }
+
+        // 既に登録されているメールアドレスかチェック
+	if(empty($userdata) == false){
+            $this->af->setApp('sameaddress',true);
+            return 'adduser';
+	}
+
+	
         return null;
     }
 
@@ -124,6 +145,13 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
      */
     public function perform()
     {
+        // 追加するデータを取得
+　　　　$addMailaddress = $this->af->get('mailaddress');
+	$addPassword = $this->af->get('password');
+        // DBに接続
+        $db = $this->backend->getDB();
+        // ユーザーテーブルに追加
+        $db->Query()
         return 'login';
     }
 }

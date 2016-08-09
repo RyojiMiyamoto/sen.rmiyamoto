@@ -7,9 +7,17 @@
     </ul>
   {/if}
   <table border="0">
+    {if $app.dbNotConection}
+    <tr>
+      <td><font color=#ff0000>データベースに接続できません</font><td>
+    </tr>
+    {/if}
     <tr>
       <td>メールアドレス</td>
       <td><input type="text" name="mailaddress" value="">{message name="mailaddress"}</td>
+      {if $app.sameaddresss}
+      <td><font color=#ff0000>既に登録されているアドレスです</font></td>
+      {/if}
     </tr>
     <tr>
       <td>パスワード</td>
