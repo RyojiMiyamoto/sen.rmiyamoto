@@ -146,12 +146,13 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
     public function perform()
     {
         // 追加するデータを取得
-　　　　$addMailaddress = $this->af->get('mailaddress');
-	$addPassword = $this->af->get('password');
+　　　　$addMail = $this->af->get('mailaddress');		// メールアドレス
+	$addPassHash = crypt($this->af->get('password'));	// ハッシュ化したパス
         // DBに接続
         $db = $this->backend->getDB();
         // ユーザーテーブルに追加
-        $db->Query()
+        var_dump("INSERT INTO usertable (address,pass) VALUES($addMail ,$addPassHash )");
+        //$db->Query("INSERT INTO usertable (address, pass) VALUES($addMail,$addPassHash )");
         return 'login';
     }
 }
