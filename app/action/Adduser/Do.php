@@ -120,20 +120,22 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
         // ユーザーテーブルを取得
         $mailaddress = $this->af->get('mailaddress');
         $userdata = $db->GetRow("SELECT address FROM usertable WHERE address = '$mailaddress'");
+        var_dump($userdata);
 
+	/*
         // データを取得できたか確認
         if(!$userdata){
             $this->af->setApp('dbNotConection','true');
             return 'adduser';
         }
+	*/
 
         // 既に登録されているメールアドレスかチェック
-	if(empty($userdata) == false){
+	if($userdata == ){
             $this->af->setApp('sameaddress',true);
             return 'adduser';
 	}
-
-	
+        	
         return null;
     }
 
@@ -146,13 +148,13 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
     public function perform()
     {
         // 追加するデータを取得
-　　　　$addMail = $this->af->get('mailaddress');		// メールアドレス
-	$addPassHash = crypt($this->af->get('password'));	// ハッシュ化したパス
+        $addMail = $this->af->get('mailaddress');		// メールアドレス
+        $addPassHash = crypt($this->af->get('password'));	// ハッシュ化したパス
         // DBに接続
         $db = $this->backend->getDB();
+	var_dump("INSERT INTO usertable (address, pass) VALUES('$addMail','$addPassHash' )");
         // ユーザーテーブルに追加
-        var_dump("INSERT INTO usertable (address,pass) VALUES($addMail ,$addPassHash )");
-        //$db->Query("INSERT INTO usertable (address, pass) VALUES($addMail,$addPassHash )");
+        //$db->Query("INSERT INTO usertable (address, pass) VALUES('$addMail','$addPassHash' )");
         return 'login';
     }
 }
