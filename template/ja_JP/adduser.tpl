@@ -15,7 +15,7 @@
     <tr>
       <td>メールアドレス</td>
       <td><input type="text" name="mailaddress" value="">{message name="mailaddress"}</td>
-      {if $app.sameaddresss}
+      {if $app.sameaddress}
       <td><font color=#ff0000>既に登録されているアドレスです</font></td>
       {/if}
     </tr>
