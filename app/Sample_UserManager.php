@@ -25,7 +25,8 @@ class Sample_UserManager
 			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
 		}
 		// パスワード認証
-		if(hash_equals($dbPassHash, crypt($password, $dbPassHash)) == false){
+		$bufPassHash = implode("",$dbPassHash);			// array型→String型
+		if(password_verify($password, $bufPassHash)==false){
 			return Ethna::raiseNotice('パスワードが間違っています',E_SAMPLE_AUTH);
 		}
 

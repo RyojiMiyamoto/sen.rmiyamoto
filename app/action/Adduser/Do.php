@@ -97,6 +97,7 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
     public function prepare()
     {
 	include('adodb/adodb.inc.php');
+	include('password_compat/password.php');
         /**
         if ($this->af->validate() > 0) {
             // forward to error view (this is sample)
@@ -147,8 +148,8 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
     public function perform()
     {
         // 追加するデータを取得
-        $addMail = $this->af->get('mailaddress');		// メールアドレス
-        $addPassHash = crypt($this->af->get('password'));	// ハッシュ化したパス
+        $addMail = $this->af->get('mailaddress');					// メールアドレス
+        $addPassHash = password_hash($this->af->get('password'), PASSWORD_DEFAULT);	// ハッシュ化したパス
         // DBに接続
         $db = $this->backend->getDB();
         // ユーザーテーブルに追加
