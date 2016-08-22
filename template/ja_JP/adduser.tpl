@@ -9,7 +9,7 @@
   <table border="0">
     {if $app.dbNotConection}
     <tr>
-      <td><font color=#ff0000>データベースに接続できません</font><td>
+      <td><font color=#ff0000>データベースに接続できません</font></td>
     </tr>
     {/if}
     <tr>
