@@ -1,19 +1,19 @@
 <?php
 /**
- *  Login/Do.php
+ *  Login/Go.php
  *
  *  @author     {$author}
  *  @package    Sample
  */
 
 /**
- *  login_do Form implementation.
+ *  login_go Form implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Form_LoginDo extends Sample_ActionForm
+class Sample_Form_LoginGo extends Sample_ActionForm
 {
     /**
      *  @access protected
@@ -44,16 +44,6 @@ class Sample_Form_LoginDo extends Sample_ActionForm
         *                                        // is defined in this(parent) class.
         *  ),
         */
-	'mailaddress' => [
-		'name'		=> 'メールアドレス',
-		'required'	=> true,
-		'type'		=> VAR_TYPE_STRING,
-	],
-	'password' => [
-		'name'		=> 'パスワード',
-		'required'	=> true,
-		'type'		=> VAR_TYPE_STRING,
-	],
     );
 
     /**
@@ -73,16 +63,16 @@ class Sample_Form_LoginDo extends Sample_ActionForm
 }
 
 /**
- *  login_do action implementation.
+ *  login_go action implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Action_LoginDo extends Sample_ActionClass
+class Sample_Action_LoginGo extends Sample_ActionClass
 {
     /**
-     *  preprocess of login_do Action.
+     *  preprocess of login_go Action.
      *
      *  @access public
      *  @return string    forward name(null: success.
@@ -90,36 +80,24 @@ class Sample_Action_LoginDo extends Sample_ActionClass
      */
     public function prepare()
     {
-	if ($this->af->validate() > 0){
-		return 'login';
-	}
         /**
-        *if ($this->af->validate() > 0) {
-        *    // forward to error view (this is sample)
-        *    // return 'error';
-	*    // return 'login';
-        *}
-        *$sample = $this->af->get('sample');
+        if ($this->af->validate() > 0) {
+            // forward to error view (this is sample)
+            return 'error';
+        }
+        $sample = $this->af->get('sample');
         */
         return null;
     }
 
     /**
-     *  login_do action implementation.
+     *  login_go action implementation.
      *
      *  @access public
      *  @return string  forward name.
      */
     public function perform()
     {
-	include('adodb/adodb.inc.php');
-	include('password_compat/password.php');
-	$um = new Sample_UserManager();
-	$result = $um->auth($this->af->get('mailaddress'), $this->af->get('password'), $this->backend);
-	if (Ethna::isError($result)) {
-		$this->ae->addObject(null, $result);
-		return 'login';
-	}
-        return 'userpage';
+        return 'login';
     }
 }
