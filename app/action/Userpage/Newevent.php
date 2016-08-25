@@ -160,7 +160,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
         $db = $this->backend->getDB();
         
         // ユーザーテーブルに追加
-        //$db->Query("INSERT INTO eventauth (eventname, eventauth) VALUES('$addEventName','$addEventPassHash' )");
+        $db->Query("INSERT INTO eventauth (eventname, eventauth) VALUES('$addEventName','$addEventPassHash' )");
 
         return 'editevent';
     }

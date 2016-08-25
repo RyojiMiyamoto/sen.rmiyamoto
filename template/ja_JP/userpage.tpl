@@ -28,10 +28,9 @@
       <td>イベントの選択</td>
       <td>
         <select name="allEventNaem" size="4">
-          <option>テスト1</option>
-          <option>テスト2</option>
-          <option>テスト3</option>
-          <option>テスト4</option>
+          {foreach from=$app.allevent item=v}
+          <option>{$v}</option>
+          {/foreach}
         </select>
       </td>
     </tr>
