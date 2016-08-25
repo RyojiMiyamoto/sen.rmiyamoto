@@ -1,3 +1,3 @@
-  <h2>New Template</h2>
-  <p>hello, world!</p>
+  <h2>イベントの閲覧・編集</h2>
+  <p>Hello world</p>
 

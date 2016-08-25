@@ -120,6 +120,11 @@ class Sample_Action_LoginDo extends Sample_ActionClass
 		$this->ae->addObject(null, $result);
 		return 'login';
 	}
+	
+	// セッションが残っていた場合一度破棄
+	if ($this->session->isStart() == true){
+		$this->session->destroy();
+	}
 	// セッションにユーザー名を保持させる
 	$this->session->start();
 	$this->session->set("username",$this->af->get('mailaddress'));	
