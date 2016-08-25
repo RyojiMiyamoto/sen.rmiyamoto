@@ -120,6 +120,10 @@ class Sample_Action_LoginDo extends Sample_ActionClass
 		$this->ae->addObject(null, $result);
 		return 'login';
 	}
+	// セッションにユーザー名を保持させる
+	$this->session->start();
+	$this->session->set("username",$this->af->get('mailaddress'));	
+
         return 'userpage';
     }
 }

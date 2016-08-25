@@ -58,8 +58,7 @@ $config = array(
 
     'session' => array(
         'handler'   => 'files',
-        'path'      => 'tmp',
-	'username'  => '',
+        'path'      => 'tmp',	
         //'cache_limiter' => 'private_no_expire',
         //'cache_expire'  => '180',
     ),

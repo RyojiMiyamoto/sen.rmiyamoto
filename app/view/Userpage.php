@@ -22,6 +22,7 @@ class Sample_View_Userpage extends Sample_ViewClass
      */
     public function preforward()
     {
+	$this->af->setApp('username', $this->session->get('username'));
     }
 }
 
