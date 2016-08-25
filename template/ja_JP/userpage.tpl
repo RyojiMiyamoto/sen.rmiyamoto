@@ -6,7 +6,7 @@
     </p>
   </Div>
   <HR>
-  <p>閲覧するイベントを選択</p>
+  <p>閲覧・編集するイベントを選択</p>
   <table border="0">
     <tr>
       <td>イベントを選択</td>
@@ -20,7 +20,7 @@
 　　　</td>
     </tr>
   </table>
-  <p><input type="submit" name="action_loginevent_go" value="イベントを閲覧"></p>
+  <p><input type="submit" name="action_editevent_viewevent" value="イベントを閲覧・編集"></p>
   <HR>
   <p>既存のイベントと関連付ける</p>
   <table border="0">
@@ -40,7 +40,7 @@
       <td><input type="password" name="connectEventPassword" value=""></td>
     </tr>
   </table>
-    <p><input type="submit" name="action_connectevent_go" value="既存のイベントと関連付ける"></p>
+    <p><input type="submit" name="action_userpage_connectevent" value="既存のイベントと関連付ける"></p>
   <HR>
   <p>新規のイベントを追加する</p>
   <table border="0">
@@ -53,6 +53,6 @@
       <td><input type="password" name="newEventPassword" value=""></td>
     </tr>
   </table>
-  <p><input type="submit" name="action_newevent_go" value="新規イベントの追加"></p>
+  <p><input type="submit" name="action_editevent_newevent" value="新規イベントの追加"></p>
 </form>
 
