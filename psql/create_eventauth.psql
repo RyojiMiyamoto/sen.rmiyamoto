@@ -1,0 +1,5 @@
+CREATE TABLE eventauth (
+	id serial PRIMARY KEY,
+	eventname text,
+	eventauth varchar(256)
+);
