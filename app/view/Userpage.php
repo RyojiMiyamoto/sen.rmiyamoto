@@ -31,9 +31,7 @@ class Sample_View_Userpage extends Sample_ViewClass
         $db = $this->backend->getDB();
 
         // すべてのイベントを取得
-        $allevent = $db->GetAll("SELECT eventname FROM eventauth");
-	
-	var_dump($allevent);	
+        $allevent = $db->GetAll("SELECT eventname FROM eventauth");	
 
         // データを取得できたか確認
         if ($allevent === false){

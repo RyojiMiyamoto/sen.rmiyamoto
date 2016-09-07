@@ -1,5 +1,6 @@
 CREATE TABLE eventlist (
     event_id serial PRIMARY KEY,
     event_name varchar(256),
-    event_key varchar(32)
+    event_key varchar(32),
+    event_pass varchar(256)
 );
