@@ -120,16 +120,14 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
         $newEventName = $this->af->get('newEventName');
         $eventList = $db->GetRow("SELECT eventname FROM eventauth WHERE eventname = '$newEventName'");
 
-
         // データを取得できたか確認
-        if($eventLsit === false){
+        if($eventList === false){
             $this->af->setApp('dbNotConection','true');
             return 'userpage';
         }
 
-
         // 既に登録されているイベント名かチェック
-        if($eventLsit){
+        if($eventList){
             $this->af->setApp('sameevent',true);
             return 'userpage';
         }
