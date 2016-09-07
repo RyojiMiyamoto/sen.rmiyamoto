@@ -120,7 +120,7 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
 
         // ユーザーテーブルを取得
         $mailaddress = $this->af->get('mailaddress');
-        $userdata = $db->GetRow("SELECT address FROM usertable WHERE address = '$mailaddress'");
+        $userdata = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = '$mailaddress'");
 
 	
         // データを取得できたか確認
@@ -155,11 +155,8 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
         $db = $this->backend->getDB();
         
 	// ユーザーテーブルに追加
-        $db->Query("INSERT INTO usertable (address, pass) VALUES('$addMail','$addPassHash' )");
-
-	// 各ユーザーの関連付けられたイベントを管理するDBを作成
-	$usertable = "user_event_" . $addMail;
-	$db->Query("CREATE TABLE '$usertable' ( id serial PRIMARY KEY, eventname text )");	
+        $db->Query("INSERT INTO userlist (user_name, user_pass) VALUES('$addMail','$addPassHash' )");
+	
         return 'login';
     }
 }

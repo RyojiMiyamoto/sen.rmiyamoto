@@ -1,0 +1,5 @@
+CREATE TABLE userlist (
+    user_id serial PRIMARY KEY,
+    user_name text,
+    user_pass varchar(256)
+);
