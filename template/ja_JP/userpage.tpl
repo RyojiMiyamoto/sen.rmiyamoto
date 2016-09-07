@@ -35,6 +35,9 @@
         -
         <input type="text" name="connectEventKey3" value="" size="2">
       </td>
+      {if $app.notMatch}
+      <td><font color=#ff0000>認証キーが間違っています</font></td>
+      {/if}
     </tr>
   </table>
   <p><input type="submit" name="action_userpage_connectevent" value="既存のイベントと関連付ける"></p>
