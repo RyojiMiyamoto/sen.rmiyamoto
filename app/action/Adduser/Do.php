@@ -150,10 +150,16 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
         // 追加するデータを取得
         $addMail = $this->af->get('mailaddress');					// メールアドレス
         $addPassHash = password_hash($this->af->get('password'), PASSWORD_DEFAULT);	// ハッシュ化したパス
-        // DBに接続
+        
+	// DBに接続
         $db = $this->backend->getDB();
-        // ユーザーテーブルに追加
+        
+	// ユーザーテーブルに追加
         $db->Query("INSERT INTO usertable (address, pass) VALUES('$addMail','$addPassHash' )");
+
+	// 各ユーザーの関連付けられたイベントを管理するDBを作成
+	$usertable = "user_event_" . $addMail;
+	$db->Query("CREATE TABLE '$usertable' ( id serial PRIMARY KEY, eventname text )");	
         return 'login';
     }
 }
