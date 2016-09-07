@@ -22,6 +22,8 @@ class Sample_View_Editevent extends Sample_ViewClass
      */
     public function preforward()
     {
+        // sessionからユーザー名を取得
+        $this->af->setApp('username', $this->session->get('username'));
     }
 }
 
