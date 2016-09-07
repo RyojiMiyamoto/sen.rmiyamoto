@@ -118,7 +118,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 
         // ユーザーテーブルを取得
         $newEventName = $this->af->get('newEventName');
-        $eventList = $db->GetRow("SELECT eventname FROM eventauth WHERE eventname = '$newEventName'");
+        $eventList = $db->GetRow("SELECT event_name FROM eventlist WHERE event_name = '$newEventName'");
 
         // データを取得できたか確認
         if($eventList === false){
@@ -154,11 +154,41 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
         $addEventName = $this->af->get('newEventName');                                              // イベント名
         $addEventPassHash = password_hash($this->af->get('newEventPassword'), PASSWORD_DEFAULT);     // イベントのハッシュ化したパス
         
+	
         // DBに接続
-        $db = $this->backend->getDB();
+	$db = $this->backend->getDB();
+	
+	// イベントの認証キーを発行
+	$addEventKey = "";
+	$um = new Sample_UserManager();
+	do{
+            
+            $try = false;
+
+            // 認証キーの発行
+	    $key = $um->makeRandStr(4) . "-" . $um->makeRandStr(4) . "-" . $um->makeRandStr(4);
+	    
+            // テーブル上に同じ認証キーがないかチェック
+            $chkKey = $db->GetRow("SELECT event_key FROM eventlist WHERE event_key = '$key'");
+            
+            // データを取得できたか確認
+            if($chkKey === false){
+                $this->af->setApp('dbNotConection','true');
+                return 'userpage';
+            }
+	
+            // 既に登録されているメールアドレスかチェック
+	    if($chkKey){
+                $try = true;
+	    }
+            
+            $addEventKey = $key;
+
+	}while($try);
+
         
         // ユーザーテーブルに追加
-        $db->Query("INSERT INTO eventauth (eventname, eventauth) VALUES('$addEventName','$addEventPassHash' )");
+        $db->Query("INSERT INTO eventlist (event_name, event_key, event_pass) VALUES('$addEventName','$addEventKey','$addEventPassHash' )");
 
         return 'editevent';
     }

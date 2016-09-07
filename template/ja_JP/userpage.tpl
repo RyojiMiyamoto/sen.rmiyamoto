@@ -25,21 +25,19 @@
   <p>既存のイベントと関連付ける</p>
   <table border="0">
     <tr>
-      <td>イベントの選択</td>
-      <td>
-        <select name="allEventNaem" size="4">
-          {foreach from=$app.allevent item=event}
-          <option>{$event.eventname}</option>
-          {/foreach}
-        </select>
-      </td>
+      <td>認証キー</td>
     </tr>
 　　<tr>
-      <td>イベントパスワード</td>
-      <td><input type="password" name="connectEventPassword" value=""></td>
+      <td>
+        <input type="text" name="connectEventKey1" value="" size="2">
+        -
+        <input type="text" name="connectEventKey2" value="" size="2">
+        -
+        <input type="text" name="connectEventKey3" value="" size="2">
+      </td>
     </tr>
   </table>
-    <p><input type="submit" name="action_userpage_connectevent" value="既存のイベントと関連付ける"></p>
+  <p><input type="submit" name="action_userpage_connectevent" value="既存のイベントと関連付ける"></p>
   <HR>
   <p>新規のイベントを追加する</p>
   {if count($error)}
