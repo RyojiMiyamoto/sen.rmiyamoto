@@ -118,13 +118,13 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
 
         // データを取得できたか確認
         if($result === false ){
-            $this->af->setApp('dbNotConection','true');
+            $this->af->setApp('connect_dbNotConection','true');
             return 'userpage';
         }
         
         // 存在しない認証キーか確認
         if (!$result){
-            $this->af->setApp('wrongKey','true');
+            $this->af->setApp('connect_wrongKey','true');
             return 'userpage';
         }
 
@@ -140,9 +140,10 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
      */
     public function perform()
     {
-        // ユーザー名をセッションから取得
-        var_dump({$app.username});
-                
+
+        // sessionからユーザー名を取得
+        //var_dump($this->session->get('username'));
+        
         // DBに接続
         $db = $this->backend->getDB();
 

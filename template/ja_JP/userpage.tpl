@@ -31,9 +31,19 @@
   <HR>
   <p>既存のイベントと関連付ける</p>
   <table border="0">
-    {if $app.dbNotConection}
+    {if $app.connect_dbNotConection}
     <tr>
       <td><font color=#ff0000>データベースに接続できません</font></td>
+    </tr>
+    {/if}
+    {if $app.wrongKey}
+    <tr>
+      <td><font color=#ff0000>認証キーが間違っています</font></td>
+    </tr>
+    {/if}
+    {if $app.brokenData}
+    <tr>
+      <td><font color=#ff0000>ユーザーまたはイベントのデータが破損しています</font></td>
     </tr>
     {/if}
     <tr>
@@ -53,25 +63,15 @@
   <HR>
   <p>新規のイベントを追加する</p>
   <table border="0">
-    {if $app.dbNotConection}
+    {if $app.new_dbNotConection}
     <tr>
       <td><font color=#ff0000>データベースに接続できません</font></td>
-    </tr>
-    {/if}
-    {if $app.wrongKey}
-    <tr>
-      <td><font color=#ff0000>認証キーが間違っています</font></td>
-    </tr>
-    {/if}
-    {if $app.brokenData}
-    <tr>
-      <td><font color=#ff0000>ユーザーまたはイベントのデータが破損しています</font></td>
     </tr>
     {/if}
     <tr>
       <td>新規イベント名</td>
       <td><input type="text" name="newEventName" value="">{message name="newEventName"}</td>
-      {if $app.sameevent}
+      {if $app.new_sameevent}
       <td><font color=#ff0000>既に登録されているアドレスです</font></td>
       {/if}
     </tr>
@@ -82,7 +82,7 @@
     <tr>
       <td>新規イベントパスワード（確認用）</td>
       <td><input type="password" name="newEventPassword_chk" value="">{message name="newEventPassword_chk"}</td>
-      {if $app.samepass}
+      {if $app.new_samepass}
       <td><font color=#ff0000>パスワードが正しくありません</font></td>
       {/if}
     </tr>

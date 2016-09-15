@@ -109,7 +109,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 
         // パスが一致しているかチェック
         if ($this->af->get('newEventPassword') != $this->af->get('newEventPassword_chk')){
-            $this->af->setApp('samepass',true);
+            $this->af->setApp('new_samepass',true);
             return 'userpage';
         }
 
@@ -122,13 +122,13 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 
         // データを取得できたか確認
         if($eventList === false){
-            $this->af->setApp('dbNotConection','true');
+            $this->af->setApp('new_dbNotConection','true');
             return 'userpage';
         }
 
         // 既に登録されているイベント名かチェック
         if($eventList){
-            $this->af->setApp('sameevent',true);
+            $this->af->setApp('new_sameevent',true);
             return 'userpage';
         }
 
@@ -173,7 +173,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
             
             // データを取得できたか確認
             if($chkKey === false){
-                $this->af->setApp('dbNotConection','true');
+                $this->af->setApp('new_dbNotConection','true');
                 return 'userpage';
             }
 	
