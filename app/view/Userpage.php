@@ -25,21 +25,24 @@ class Sample_View_Userpage extends Sample_ViewClass
         include('adodb/adodb.inc.php');
 
         // sessionからユーザー名を取得
-	$this->af->setApp('username', $this->session->get('username'));
+        $username = $this->session->get('username');
+
+	// ユーザー名をtplに渡してあげる
+	$this->af->setApp('username', $username);
         
         // DB接続
         $db = $this->backend->getDB();
 
-        // すべてのイベントを取得
-        $allevent = $db->GetAll("SELECT eventname FROM eventauth");	
+        // ユーザーに関連付けされているイベントを取得
+        $userLinkEventList = $db->getAll("SELECT eventlist.event_name FROM linklist JOIN userlist ON linklist.user_id = userlist.user_id JOIN eventlist ON linklist.event_id = eventlist.event_id WHERE user_name = '$username' ORDER BY eventlist.event_name");	
 
         // データを取得できたか確認
-        if ($allevent === false){
-            $this->af->setApp('dbNotConection','true');
-            $this->af->setApp('allevent', null);
+        if ($userLinkEventList === false){
+            $this->af->setApp('print_dbNotConection','true');
+            $this->af->setApp('userLinkEventList', null);
         }
         else{
-            $this->af->setApp('allevent', $allevent);
+            $this->af->setApp('userLinkEventList', $userLinkEventList);
         }
         
     }

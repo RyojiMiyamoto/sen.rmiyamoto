@@ -15,14 +15,18 @@
   <HR>
   <p>閲覧・編集するイベントを選択</p>
   <table border="0">
+    {if $app.connect_dbNotConection}
+    <tr>
+      <td><font color=#ff0000>データベースに接続できません</font></td>
+    </tr>
+    {/if}
     <tr>
       <td>イベントを選択</td>
       <td>
-        <select name="authEventNaem" size="4">
-          <option>テスト1</option>
-          <option>テスト2</option>
-          <option>テスト3</option>
-          <option>テスト4</option>
+        <select name="userLinkEventList" size="4">
+          {foreach from=$app.userLinkEventList item=event}
+          <option>{$event.event_name}</option>
+          {/foreach}
         </select>
 　　　</td>
     </tr>
