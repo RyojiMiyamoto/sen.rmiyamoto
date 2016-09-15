@@ -25,13 +25,13 @@
       <td>
         <select name="userLinkEventList" size="4">
           {foreach from=$app.userLinkEventList item=event}
-          <option>{$event.event_name}</option>
+          <opti>{$event.event_name}</selected>
           {/foreach}
         </select>
 　　　</td>
     </tr>
   </table>
-  <p><input type="submit" name="action_userpage_viewevent" value="イベントを閲覧・編集"></p>
+  <p><input type="submit" name="action_userpage_goEditEvent" value="イベントを閲覧・編集"></p>
   <HR>
   <p>既存のイベントと関連付ける</p>
   <table border="0">

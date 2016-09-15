@@ -227,6 +227,10 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 
         // リンクリストに各ID・名前を登録する
         $db->Query("INSERT INTO linklist (user_id, event_id) VALUES('$userID','$eventID' )");
+        
+        
+        // セッションにイベント名を記録させる
+        $this->session->set('eventname', $addEventName);
 
         return 'editevent';
     }
