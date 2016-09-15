@@ -5,6 +5,13 @@
     <p>ユーザー名 : {$app.username}</p>
     </p>
   </Div>
+  {if count($error)}
+    <ul>
+    {foreach from=$error item=error}
+      <li>{$error}</li>
+    {/foreach}
+    </ul>
+  {/if}
   <HR>
   <p>閲覧・編集するイベントを選択</p>
   <table border="0">
@@ -24,6 +31,11 @@
   <HR>
   <p>既存のイベントと関連付ける</p>
   <table border="0">
+    {if $app.dbNotConection}
+    <tr>
+      <td><font color=#ff0000>データベースに接続できません</font></td>
+    </tr>
+    {/if}
     <tr>
       <td>認証キー</td>
     </tr>
@@ -40,17 +52,20 @@
   <p><input type="submit" name="action_userpage_connectevent" value="既存のイベントと関連付ける"></p>
   <HR>
   <p>新規のイベントを追加する</p>
-  {if count($error)}
-    <ul>
-    {foreach from=$error item=error}
-      <li>{$error}</li>
-    {/foreach}
-    </ul>
-  {/if}
   <table border="0">
     {if $app.dbNotConection}
     <tr>
       <td><font color=#ff0000>データベースに接続できません</font></td>
+    </tr>
+    {/if}
+    {if $app.wrongKey}
+    <tr>
+      <td><font color=#ff0000>認証キーが間違っています</font></td>
+    </tr>
+    {/if}
+    {if $app.brokenData}
+    <tr>
+      <td><font color=#ff0000>ユーザーまたはイベントのデータが破損しています</font></td>
     </tr>
     {/if}
     <tr>

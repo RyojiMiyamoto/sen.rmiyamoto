@@ -23,17 +23,17 @@ class Sample_Form_UserpageConnectevent extends Sample_ActionForm
        'connectEventKey1' => [
           'name'      => '認証キー1',
           'require'   => true,
-          'type'      => VAR_TYPE_STRING.
+          'type'      => VAR_TYPE_STRING,
        ],
        'connectEventKey2' => [
           'name'      => '認証キー2',
           'require'   => true,
-          'type'      => VAR_TYPE_STRING.
+          'type'      => VAR_TYPE_STRING,
        ],
        'connectEventKey3' => [
           'name'      => '認証キー3',
           'require'   => true,
-          'type'      => VAR_TYPE_STRING.
+          'type'      => VAR_TYPE_STRING,
        ],
 
        /*
@@ -105,7 +105,7 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
         }
 
         // 画面から認証キーを取得し整形
-　　　　$cnctKey1 = $this->af->get('connectEventKey1');
+        $cnctKey1 = $this->af->get('connectEventKey1');
         $cnctKey2 = $this->af->get('connectEventKey2');
         $cnctKey3 = $this->af->get('connectEventKey3');
         $fullCnctkey = $cnctKey1 . "-" . $cnctKey2 . "-" . $cnctKey3;
@@ -140,8 +140,12 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
      */
     public function perform()
     {
+        // ユーザー名をセッションから取得
+        var_dump({$app.username});
                 
-        
+        // DBに接続
+        $db = $this->backend->getDB();
+
         return 'userpage';
     }
 }
