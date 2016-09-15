@@ -114,7 +114,7 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
         $db = $this->backend->getDB();
 
         // 同一の認証キーが存在するか取得
-        $result = $db->GetRow("SELECT event_kry FROM eventlist WHERE user_key = '$fullCnctKey'");
+        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE user_key = '$fullCnctKey'");
 
         // データを取得できたか確認
         if($result === false ){
@@ -122,9 +122,10 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
             return 'userpage';
         }
         
-        // 登録されている認証キーか確認
+        // 存在しない認証キーか確認
         if (!$result){
-            
+            $this->af->setApp('wrongKey','true');
+            return 'userpage';
         }
 
 
