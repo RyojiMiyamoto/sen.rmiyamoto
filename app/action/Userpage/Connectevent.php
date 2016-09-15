@@ -96,8 +96,7 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
      */
     public function prepare()
     {
-        include('adodb/adodb.inc.php');
-
+        include('adodb/adodb.inc.php');	
          
         // 空欄がないかチェック
         if ($this->af->validate() > 0) {
@@ -108,13 +107,13 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
         $cnctKey1 = $this->af->get('connectEventKey1');
         $cnctKey2 = $this->af->get('connectEventKey2');
         $cnctKey3 = $this->af->get('connectEventKey3');
-        $fullCnctkey = $cnctKey1 . "-" . $cnctKey2 . "-" . $cnctKey3;
+        $fullCnctKey = $cnctKey1 . "-" . $cnctKey2 . "-" . $cnctKey3;
 
         // DBに接続
         $db = $this->backend->getDB();
 
         // 同一の認証キーが存在するか取得
-        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE user_key = '$fullCnctKey'");
+        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_key = '$fullCnctKey'");
 
         // データを取得できたか確認
         if($result === false ){
@@ -142,10 +141,49 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
     {
 
         // sessionからユーザー名を取得
-        //var_dump($this->session->get('username'));
+        $userName = $this->session->get('username');
+
+        // 画面から認証キーを取得し整形
+        $cnctKey1 = $this->af->get('connectEventKey1');
+        $cnctKey2 = $this->af->get('connectEventKey2');
+        $cnctKey3 = $this->af->get('connectEventKey3');
+        $fullCnctKey = $cnctKey1 . "-" . $cnctKey2 . "-" . $cnctKey3;
         
         // DBに接続
         $db = $this->backend->getDB();
+
+        // ユーザーIDを取得
+        $userResult = $db->GetRow("SELECT user_id FROM userlist WHERE user_name = '$userName'");
+
+        // ユーザーIDが取得できたか
+        if($userResult === false){
+            $this->af->setApp('connect_dbNotConection','true');
+            return 'userpage';
+        }
+
+        // ユーザーIDの整形(array → int)
+        $userID = intval(implode($userResult));
+        
+        // イベントIDを取得
+        $eventResult = $db->GetRow("SELECT event_id FROM eventlist WHERE event_key = '$fullCnctKey'");
+
+        // イベントIDを取得できたか
+        if($eventResult === false){
+            $this->af->setApp('connect_dbNotConection','true');
+            return 'userpage';
+        }
+
+        // イベントIDの整形
+        $eventID = intval($eventResult['event_id']);
+
+        // リンクリスト内に既に同一の登録がないかチェック
+        if ($db->GetRow("SELECT * FROM linklist WHERE link_user_id = '$userID' AND link_event_id = '$eventID'") === false){
+            $this->af->setApp('connect_Registered','true');
+            return 'userpage';
+        }
+
+        // リンクリストに各ID・名前を登録する
+        $db->Query("INSERT INTO linklist (link_user_id, link_event_id) VALUES('$userID','$eventID' )");
 
         return 'userpage';
     }

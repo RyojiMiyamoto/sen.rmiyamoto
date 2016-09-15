@@ -36,12 +36,12 @@
       <td><font color=#ff0000>データベースに接続できません</font></td>
     </tr>
     {/if}
-    {if $app.wrongKey}
+    {if $app.connect_wrongKey}
     <tr>
       <td><font color=#ff0000>認証キーが間違っています</font></td>
     </tr>
     {/if}
-    {if $app.brokenData}
+    {if $app.connect_Registered}
     <tr>
       <td><font color=#ff0000>ユーザーまたはイベントのデータが破損しています</font></td>
     </tr>
