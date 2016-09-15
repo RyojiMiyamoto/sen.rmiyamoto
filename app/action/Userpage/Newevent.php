@@ -187,8 +187,46 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 	}while($try);
 
         
-        // ユーザーテーブルに追加
+        // イベントリストに追加
         $db->Query("INSERT INTO eventlist (event_name, event_key, event_pass) VALUES('$addEventName','$addEventKey','$addEventPassHash' )");
+
+        // イベント追加以降はイベントと登録したユーザーの紐づけを行う
+
+        // sessionからユーザー名を取得
+        $userName = $this->session->get('username');
+
+        // ユーザーIDを取得
+        $userResult = $db->GetRow("SELECT user_id FROM userlist WHERE user_name = '$userName'");
+
+        // ユーザーIDが取得できたか
+        if($userResult === false){
+            $this->af->setApp('new_evetNotConection','true');
+            return 'userpage';
+        }
+
+        // ユーザーIDの整形(array → int)
+        $userID = intval(implode($userResult));
+        
+        // イベントIDを取得
+        $eventResult = $db->GetRow("SELECT event_id FROM eventlist WHERE event_key = '$addEventKey'");
+        
+        // イベントIDを取得できたか
+        if($eventResult === false){
+            $this->af->setApp('new_eventNotConection','true');
+            return 'userpage';
+        }
+
+        // イベントIDの整形
+        $eventID = intval($eventResult['event_id']);
+
+        // リンクリスト内に既に同一の登録がないかチェック
+        if ($db->GetRow("SELECT * FROM linklist WHERE link_user_id = '$userID' AND link_event_id = '$eventID'") === false){
+            $this->af->setApp('new_Registered','true');
+            return 'userpage';
+        }
+
+        // リンクリストに各ID・名前を登録する
+        $db->Query("INSERT INTO linklist (link_user_id, link_event_id) VALUES('$userID','$eventID' )");
 
         return 'editevent';
     }

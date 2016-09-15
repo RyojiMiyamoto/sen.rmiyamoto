@@ -43,7 +43,7 @@
     {/if}
     {if $app.connect_Registered}
     <tr>
-      <td><font color=#ff0000>ユーザーまたはイベントのデータが破損しています</font></td>
+      <td><font color=#ff0000>既に登録されているイベントです</font></td>
     </tr>
     {/if}
     <tr>
@@ -66,6 +66,16 @@
     {if $app.new_dbNotConection}
     <tr>
       <td><font color=#ff0000>データベースに接続できません</font></td>
+    </tr>
+    {/if}
+    {if $app.new_eventNotConection}
+    <tr>
+      <td><font color=#ff0000>新規イベントとユーザーを関連付けられません</font></td>
+    </tr>
+    {/if}
+    {if $app.new_Registered}
+    <tr>
+      <td><font color=#ff0000>既に登録されているイベントです</font></td>
     </tr>
     {/if}
     <tr>
