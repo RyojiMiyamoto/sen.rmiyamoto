@@ -220,13 +220,13 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
         $eventID = intval($eventResult['event_id']);
 
         // リンクリスト内に既に同一の登録がないかチェック
-        if ($db->GetRow("SELECT * FROM linklist WHERE link_user_id = '$userID' AND link_event_id = '$eventID'") === false){
+        if ($db->GetRow("SELECT * FROM linklist WHERE user_id = '$userID' AND event_id = '$eventID'") === false){
             $this->af->setApp('new_Registered','true');
             return 'userpage';
         }
 
         // リンクリストに各ID・名前を登録する
-        $db->Query("INSERT INTO linklist (link_user_id, link_event_id) VALUES('$userID','$eventID' )");
+        $db->Query("INSERT INTO linklist (user_id, event_id) VALUES('$userID','$eventID' )");
 
         return 'editevent';
     }
