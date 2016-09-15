@@ -20,6 +20,22 @@ class Sample_Form_UserpageConnectevent extends Sample_ActionForm
      *  @var    array   form definition.
      */
     public $form = array(
+       'connectEventKey1' => [
+          'name'      => '認証キー1',
+          'require'   => true,
+          'type'      => VAR_TYPE_STRING.
+       ],
+       'connectEventKey2' => [
+          'name'      => '認証キー2',
+          'require'   => true,
+          'type'      => VAR_TYPE_STRING.
+       ],
+       'connectEventKey3' => [
+          'name'      => '認証キー3',
+          'require'   => true,
+          'type'      => VAR_TYPE_STRING.
+       ],
+
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -80,13 +96,38 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
      */
     public function prepare()
     {
-        /**
+        include('adodb/adodb.inc.php');
+
+         
+        // 空欄がないかチェック
         if ($this->af->validate() > 0) {
-            // forward to error view (this is sample)
-            return 'error';
+            return 'userpage';
         }
-        $sample = $this->af->get('sample');
-        */
+
+        // 画面から認証キーを取得し整形
+　　　　$cnctKey1 = $this->af->get('connectEventKey1');
+        $cnctKey2 = $this->af->get('connectEventKey2');
+        $cnctKey3 = $this->af->get('connectEventKey3');
+        $fullCnctkey = $cnctKey1 . "-" . $cnctKey2 . "-" . $cnctKey3;
+
+        // DBに接続
+        $db = $this->backend->getDB();
+
+        // 同一の認証キーが存在するか取得
+        $result = $db->GetRow("SELECT event_kry FROM eventlist WHERE user_key = '$fullCnctKey'");
+
+        // データを取得できたか確認
+        if($result === false ){
+            $this->af->setApp('dbNotConection','true');
+            return 'userpage';
+        }
+        
+        // 登録されている認証キーか確認
+        if (!$result){
+            
+        }
+
+
         return null;
     }
 
@@ -97,7 +138,7 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
      *  @return string  forward name.
      */
     public function perform()
-    {
+    {        
         return 'userpage';
     }
 }
