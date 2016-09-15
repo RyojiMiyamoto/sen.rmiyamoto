@@ -139,7 +139,9 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
      *  @return string  forward name.
      */
     public function perform()
-    {        
+    {
+                
+        
         return 'userpage';
     }
 }

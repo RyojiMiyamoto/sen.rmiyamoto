@@ -1,0 +1,5 @@
+REATE TABLE linklist (
+    link_id serial PRIMARY KEY,
+    link_user_id integer,
+    link_event_id integer
+);
