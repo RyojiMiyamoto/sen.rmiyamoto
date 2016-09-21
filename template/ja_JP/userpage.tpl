@@ -25,7 +25,7 @@
       <td>
         <select name="userLinkEventList" size="4">
           {foreach from=$app.userLinkEventList item=event}
-          <opti>{$event.event_name}</selected>
+          <option value={$event.event_name}>{$event.event_name}</option>
           {/foreach}
         </select>
 　　　</td>

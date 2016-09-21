@@ -20,6 +20,11 @@ class Sample_Form_UserpageGoEditEvent extends Sample_ActionForm
      *  @var    array   form definition.
      */
     public $form = array(
+       'userLinkEventList' => [
+		'name'		=> '選択されたイベント',
+		'required'	=> true,
+		'type'		=> VAR_TYPE_STRING,
+	],
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -98,8 +103,9 @@ class Sample_Action_UserpageGoEditEvent extends Sample_ActionClass
      */
     public function perform()
     {
-	var_dump($this->af->get('userLinkEventList'));
-        //$this->session->set("eventname",)
+        
+        $eventName = $this->af->get('userLinkEventList');
+        $this->session->set("eventName",$eventName);
         return 'editevent';
     }
 }
