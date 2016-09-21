@@ -24,7 +24,6 @@
   {/if}
   <table border="0">
     <tr>
-      <td><img src="" /></td>
       <td><input type="submit" name="action_editevent_goUpload" value="アップロード"></td>
     </tr>
   </table>

@@ -1,19 +1,19 @@
 <?php
 /**
- *  Editevent/Back.php
+ *  Upload.php
  *
  *  @author     {$author}
  *  @package    Sample
  */
 
 /**
- *  editevent_back Form implementation.
+ *  upload Form implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Form_EditeventBack extends Sample_ActionForm
+class Sample_Form_Upload extends Sample_ActionForm
 {
     /**
      *  @access protected
@@ -63,16 +63,16 @@ class Sample_Form_EditeventBack extends Sample_ActionForm
 }
 
 /**
- *  editevent_back action implementation.
+ *  upload action implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Action_EditeventBack extends Sample_ActionClass
+class Sample_Action_Upload extends Sample_ActionClass
 {
     /**
-     *  preprocess of editevent_back Action.
+     *  preprocess of upload Action.
      *
      *  @access public
      *  @return string    forward name(null: success.
@@ -91,14 +91,13 @@ class Sample_Action_EditeventBack extends Sample_ActionClass
     }
 
     /**
-     *  editevent_back action implementation.
+     *  upload action implementation.
      *
      *  @access public
      *  @return string  forward name.
      */
     public function perform()
     {
-        $this->session->set("eventname",""));
-        return 'userpage';
+        return 'upload';
     }
 }
