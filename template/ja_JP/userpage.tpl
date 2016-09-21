@@ -21,7 +21,9 @@
     </tr>
     {/if}
     <tr>
-      <td>イベントを選択</td>
+      <td>登録済みのイベント</td>
+    </tr>
+    <tr>
       <td>
         <select name="userLinkEventList" size="4">
           {foreach from=$app.userLinkEventList item=event}
