@@ -15,6 +15,19 @@
      <input type="submit" name="action_editevent_edit" value="編集">
     </p>
   <HR>
+  {if count($errors)}
+    <ul>
+      {foreach from=$errors item=error}
+        <li>{$error}</li>
+      {/foreach}
+    </ul>
+  {/if}
+  <table border="0">
+    <tr>
+      <td><img src="" /></td>
+      <td><input type="submit" name="action_editevent_goUpload" value="アップロード"></td>
+    </tr>
+  </table>
 </form>
  
 
