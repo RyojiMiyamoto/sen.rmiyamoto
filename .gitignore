@@ -1,6 +1,7 @@
 vendor/
 composer.phar
 tmp/
+tempupload/
 # local or NFS resources
 /log
 /sbook

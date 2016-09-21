@@ -22,6 +22,9 @@ class Sample_View_Upload extends Sample_ViewClass
      */
     public function preforward()
     {
+        // sessionからユーザー名とイベント名を取得しtplに渡す
+        $this->af->setApp('username', $this->session->get('username'));
+        $this->af->setApp('eventname', $this->session->get('eventname'));
     }
 }
 
