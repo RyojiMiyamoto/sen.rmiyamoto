@@ -1,4 +1,5 @@
 <?php
+use Aws\S3\S3Client;
 /**
  *  Upload/UploadFile.php
  *
@@ -85,17 +86,39 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function prepare()
     {
-        //var_dump($_FILES['filePath']);
+        /*
         $uploaddir = '/var/www/html/sen.rmiyamoto/tempupload/';
         $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
-        var_dump($uploadfile);
-
+        
+        var_dump($_FILES['filePath']['tmp_name']);
+        // ファイルの移動
         if (move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
             var_dump("アップロードできました");
         }
         else{
             var_dump("失敗");
         }
+        */
+        
+        $bucket = 'miyamoto.8122.jp';
+        $keyname = $_FILES['filePath']['name'];				
+        $filepath = $_FILES['filePath']['tmp_name'];
+        $contenttype = $_FILES['filePath']['type'];
+						
+        // Instantiate the client.
+        $s3 = S3Client::factory();
+
+        // Upload a file.
+        $result = $s3->putObject(array(
+            'Bucket'       => $bucket,
+            'Key'          => $keyname,
+            'SourceFile'   => $filepath,
+            'ContentType'  => $contenttype,
+            'ACL'          => 'public-read',
+            'StorageClass' => 'REDUCED_REDUNDANCY'
+        ));
+
+        $result['ObjectURL'];
 
         /**
         if ($this->af->validate() > 0) {
