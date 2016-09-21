@@ -10,7 +10,10 @@
     <p>ユーザー名 : {$app.username}</p>
   </Div>
   <Div Align="left">
-    <p><input type="submit" name="action_editevent_back" value="戻る"></p>
+    <p>
+     <input type="submit" name="action_editevent_back" value="戻る">
+     <input type="submit" name="action_editevent_edit" value="編集">
+    </p>
   <HR>
 </form>
  
