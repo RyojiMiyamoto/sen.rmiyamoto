@@ -105,7 +105,7 @@ class Sample_Action_UserpageGoEditEvent extends Sample_ActionClass
     {
         
         $eventName = $this->af->get('userLinkEventList');
-        $this->session->set("eventName",$eventName);
+        $this->session->set("eventname",$eventName);
         return 'editevent';
     }
 }
