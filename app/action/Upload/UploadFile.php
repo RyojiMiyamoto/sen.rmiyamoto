@@ -1,25 +1,37 @@
 <?php
+
+use Aws\Common\Aws; 
+use Aws\Common\Enum\Region; 
+use Aws\S3\Enum\CannedAcl; 
+use Aws\S3\Exception\S3Exception; 
+use Guzzle\Http\EntityBody;
+
 /**
- *  Editevent/Back.php
+ *  Upload/UploadFile.php
  *
  *  @author     {$author}
  *  @package    Sample
  */
 
 /**
- *  editevent_back Form implementation.
+ *  upload_uploadFile Form implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Form_EditeventBack extends Sample_ActionForm
+class Sample_Form_UploadUploadFile extends Sample_ActionForm
 {
     /**
      *  @access protected
      *  @var    array   form definition.
      */
     public $form = array(
+       'filePath' => [
+           'name'      => 'ファイルパス',
+           'required'  => true,
+           'type'      => VAR_TYPE_FILE,
+       ],
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -63,16 +75,16 @@ class Sample_Form_EditeventBack extends Sample_ActionForm
 }
 
 /**
- *  editevent_back action implementation.
+ *  upload_uploadFile action implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Action_EditeventBack extends Sample_ActionClass
+class Sample_Action_UploadUploadFile extends Sample_ActionClass
 {
     /**
-     *  preprocess of editevent_back Action.
+     *  preprocess of upload_uploadFile Action.
      *
      *  @access public
      *  @return string    forward name(null: success.
@@ -80,6 +92,43 @@ class Sample_Action_EditeventBack extends Sample_ActionClass
      */
     public function prepare()
     {
+        /*
+        $uploaddir = '/var/www/html/sen.rmiyamoto/tempupload/';
+        $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
+        
+        var_dump($_FILES['filePath']['tmp_name']);
+        // ファイルの移動
+        if (move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
+            var_dump("アップロードできました");
+        }
+        else{
+            var_dump("失敗");
+        }
+        */
+        
+        $bucket = 'miyamoto.8122.jp';
+
+        
+
+        $keyname = $_FILES['filePath']['name'];				
+        $filepath = $_FILES['filePath']['tmp_name'];
+        $contenttype = $_FILES['filePath']['type'];
+						
+        // Instantiate the client.
+        $s3 = S3Client::factory();
+
+        // Upload a file.
+        $result = $s3->putObject(array(
+            'Bucket'       => $bucket,
+            'Key'          => $keyname,
+            'SourceFile'   => $filepath,
+            'ContentType'  => $contenttype,
+            'ACL'          => 'public-read',
+            'StorageClass' => 'REDUCED_REDUNDANCY'
+        ));
+
+        $result['ObjectURL'];
+
         /**
         if ($this->af->validate() > 0) {
             // forward to error view (this is sample)
@@ -91,14 +140,13 @@ class Sample_Action_EditeventBack extends Sample_ActionClass
     }
 
     /**
-     *  editevent_back action implementation.
+     *  upload_uploadFile action implementation.
      *
      *  @access public
      *  @return string  forward name.
      */
     public function perform()
     {
-        $this->session->set("eventname",""));
-        return 'userpage';
+        return 'upload';
     }
 }

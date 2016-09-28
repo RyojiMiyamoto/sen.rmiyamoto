@@ -1,10 +1,12 @@
 vendor/
 composer.phar
 tmp/
+tempupload/
+conf/
 # local or NFS resources
 /log
 /sbook
 /resources
 /apachelog
 # dependent on server type
-/etc/config.php
+etc/config.php

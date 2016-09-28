@@ -1,25 +1,30 @@
 <?php
 /**
- *  Editevent/Back.php
+ *  Userpage/GoEditEvent.php
  *
  *  @author     {$author}
  *  @package    Sample
  */
 
 /**
- *  editevent_back Form implementation.
+ *  userpage_goEditEvent Form implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Form_EditeventBack extends Sample_ActionForm
+class Sample_Form_UserpageGoEditEvent extends Sample_ActionForm
 {
     /**
      *  @access protected
      *  @var    array   form definition.
      */
     public $form = array(
+       'userLinkEventList' => [
+		'name'		=> '選択されたイベント',
+		'required'	=> true,
+		'type'		=> VAR_TYPE_STRING,
+	],
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -63,16 +68,16 @@ class Sample_Form_EditeventBack extends Sample_ActionForm
 }
 
 /**
- *  editevent_back action implementation.
+ *  userpage_goEditEvent action implementation.
  *
  *  @author     {$author}
  *  @access     public
  *  @package    Sample
  */
-class Sample_Action_EditeventBack extends Sample_ActionClass
+class Sample_Action_UserpageGoEditEvent extends Sample_ActionClass
 {
     /**
-     *  preprocess of editevent_back Action.
+     *  preprocess of userpage_goEditEvent Action.
      *
      *  @access public
      *  @return string    forward name(null: success.
@@ -91,14 +96,16 @@ class Sample_Action_EditeventBack extends Sample_ActionClass
     }
 
     /**
-     *  editevent_back action implementation.
+     *  userpage_goEditEvent action implementation.
      *
      *  @access public
      *  @return string  forward name.
      */
     public function perform()
     {
-        $this->session->set("eventname",""));
-        return 'userpage';
+        
+        $eventName = $this->af->get('userLinkEventList');
+        $this->session->set("eventname",$eventName);
+        return 'editevent';
     }
 }
