@@ -68,25 +68,15 @@ class Sample_UserManager
                             'secret' => $uploadData["s3Conf"]["secretKey"],
                             'region' => Region::AP_NORTHEAST_1,
                         ))->get('s3');
-                        
-                        $info = new FInfo(FILEINFO_MIME_TYPE);
 
-                        // Upload File
-                        $filename = $uploadData["fileName"];
-                        $filebody = EntityBody::factory(fopen($filename, 'r'));
-                        $filetype = $info->file($fileName);
-
-                        var_dump($filename);
-                        var_dump($filebody);
-                        var_dump($filebody); 
-
+                        // ファイルのアップロード
                         /*
                         $result = $s3->putObject(array(
-                            'Bucket' => $uploadData["s3Conf"]["bucket"],
-                            'Key'    => $uploadData["keyName"],
-                            'Body'   => $fileBody,
-                            'ContentType' => $fileType,
-                            'StorageClass' => 'STANDARD',
+                            'Bucket'      => $uploadData["s3Conf"]["bucket"],
+                            'Key'         => $uploadData["fileInfo"]["fileName"],
+                            'SourceFile'  => $uploadData["fileInfo"]["filepath"],
+                            'ContentType' => $uploadData["fileInfo"]["type"];,
+                            'StorageClass' => 'REDUCED_REDUNDANCY',
                             'ACL' => CannedAcl::PUBLIC_READ,
                         ));
                         */
