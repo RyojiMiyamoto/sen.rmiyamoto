@@ -98,30 +98,16 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         else{
             var_dump("失敗");
         }
-        */
-        
-        $bucket = 'miyamoto.8122.jp';
+        */     
 
-        
-
+        /*
         $keyname = $_FILES['filePath']['name'];				
         $filepath = $_FILES['filePath']['tmp_name'];
         $contenttype = $_FILES['filePath']['type'];
 						
         // Instantiate the client.
         $s3 = S3Client::factory();
-
-        // Upload a file.
-        $result = $s3->putObject(array(
-            'Bucket'       => $bucket,
-            'Key'          => $keyname,
-            'SourceFile'   => $filepath,
-            'ContentType'  => $contenttype,
-            'ACL'          => 'public-read',
-            'StorageClass' => 'REDUCED_REDUNDANCY'
-        ));
-
-        $result['ObjectURL'];
+        */
 
         /**
         if ($this->af->validate() > 0) {
@@ -141,6 +127,15 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function perform()
     {
+        $um = new Sample_UserManager();
+
+        // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
+        $s3Conf = $um->getS3Conf();
+        var_dump($s3Conf);
+
+        // ファイルのアップデート
+　　　　//$um->uploadFileS3($uploadData);
+
         return 'upload';
     }
 }

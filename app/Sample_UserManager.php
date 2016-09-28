@@ -76,7 +76,7 @@ class Sample_UserManager
                         $filebody = EntityBody::factory(fopen($filename, 'r'));
                         $filetype = $info->file($fileName);
  
-                        $response = $s3->putObject(array(
+                        $result = $s3->putObject(array(
                             'Bucket' => $uploadData["s3Conf"]["bucket"],
                             'Key'    => $uploadData["keyName"],
                             'Body'   => $fileBody,
