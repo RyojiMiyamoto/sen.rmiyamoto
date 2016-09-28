@@ -86,33 +86,6 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function prepare()
     {
-        /* 
-        $uploaddir = '/var/www/html/sen.rmiyamoto/tempupload/';
-        $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
-        
-        // ファイルの移動
-        if (move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
-            var_dump("アップロードできました");
-        }
-        else{
-            var_dump("失敗");
-        }
-        
-        $keyname = $_FILES['filePath']['name'];				
-        $filepath = $_FILES['filePath']['tmp_name'];
-        $contenttype = $_FILES['filePath']['type'];
-						
-        // Instantiate the client.
-        $s3 = S3Client::factory();
-        */
-
-        /**
-        if ($this->af->validate() > 0) {
-            // forward to error view (this is sample)
-            return 'error';
-        }
-        $sample = $this->af->get('sample');
-        */
         return null;
     }
 
@@ -129,10 +102,10 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
 
         // ファイルの移動
         if (move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
-            var_dump("アップロードできました");
+            //var_dump("アップロードできました");
         }
         else{
-            var_dump("失敗");
+            //var_dump("失敗");
         }
 
 
@@ -143,18 +116,20 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
         $s3Conf = $um->getS3Conf();
         
+        
         // アップデートするファイルの情報やS3の設定を配列に入れ込む
         $uploadData = array(
             "s3Conf" => array(
-                "bucket"     => $s3Conf[0],
-                "accessKey"  => $s3Conf[1],
-                "secretKey"  => $s3Conf[2]
+                "bucket"     => str_replace("\r\n", '',$s3Conf[0]),
+                "accessKey"  => str_replace("\r\n", '',$s3Conf[1]),
+                "secretKey"  => str_replace("\r\n", '',$s3Conf[2])
             ),
-            "fileName" => $uploadfile,
-            "keyName"  => $_FILES['filePath']['name']
+            "fileInfo" => array(
+                "fileName" => $_FILES['filePath']['name'],
+                "filePath" => $uploadfile,
+                "type"     => $_FILES['filePath']['type']
+            )
         );
-
-        var_dump($uploadData);
 
         // ファイルのアップデート
         $um->uploadFileS3($uploadData);
