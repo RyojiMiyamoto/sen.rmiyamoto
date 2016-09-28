@@ -97,7 +97,7 @@ class Sample_UserManager
          */
         public function getS3Conf()
         {
-               return file("/var/www/html/sen.rmiyamoto/etc/s3.conf");
+        	return file('/var/www/html/sen.rmiyamoto/conf/s3.comf');
         }
 
 	// old

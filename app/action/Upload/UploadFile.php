@@ -134,7 +134,7 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         var_dump($s3Conf);
 
         // ファイルのアップデート
-　　　　//$um->uploadFileS3($uploadData);
+        //$um->uploadFileS3($uploadData);
 
         return 'upload';
     }
