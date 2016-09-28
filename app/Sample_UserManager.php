@@ -59,11 +59,10 @@ class Sample_UserManager
 
         /**
          * S3にファイルのアップロードを行う
-         * $uploadData: s3の設定(バケット名, アクセスキー, シークレットキー), ファイル名, キー名
+         * $uploadData: s3の設定(バケット名, アクセスキー, シークレットキー), ファイル情報(ファイル名, キー名, イベント名)
          */
         public function uploadFileS3($uploadData)
         {
-
 		$s3 = S3Client::factory(array(
                        'key'    => $uploadData["s3Conf"]["accessKey"],
                        'secret' => $uploadData["s3Conf"]["secretKey"],
@@ -72,13 +71,12 @@ class Sample_UserManager
               
                 $result = $s3->putObject(array(
                        'Bucket'       => $uploadData["s3Conf"]["bucket"],
-                       'Key'          => 'temp/' . $uploadData["fileInfo"]["fileName"],
+                       'Key'          => $uploadData["fileInfo"]["eventName"] . '/' . $uploadData["fileInfo"]["fileName"],
                        'SourceFile'   => $uploadData["fileInfo"]["filePath"],
                        'ContentType'  => $uploadData["fileInfo"]["type"],
                        'ACL'          => 'public-read',
                        'StorageClass' => 'REDUCED_REDUNDANCY'
                 ));
-                echo $result['ObjectURL'];
         }
 
         /**

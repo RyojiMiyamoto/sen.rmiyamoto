@@ -125,9 +125,10 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
                 "secretKey"  => str_replace("\r\n", '',$s3Conf[2])
             ),
             "fileInfo" => array(
-                "fileName" => $_FILES['filePath']['name'],
-                "filePath" => $uploadfile,
-                "type"     => $_FILES['filePath']['type']
+                "fileName"  => $_FILES['filePath']['name'],
+                "filePath"  => $uploadfile,
+                "type"      => $_FILES['filePath']['type'],
+                "eventName" => $this->session->get('eventname')
             )
         );
 
