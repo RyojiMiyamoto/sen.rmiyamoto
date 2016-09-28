@@ -1,5 +1,11 @@
 <?php
-use Aws\S3\S3Client;
+
+use Aws\Common\Aws; 
+use Aws\Common\Enum\Region; 
+use Aws\S3\Enum\CannedAcl; 
+use Aws\S3\Exception\S3Exception; 
+use Guzzle\Http\EntityBody;
+
 /**
  *  Upload/UploadFile.php
  *
@@ -101,6 +107,9 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         */
         
         $bucket = 'miyamoto.8122.jp';
+
+        
+
         $keyname = $_FILES['filePath']['name'];				
         $filepath = $_FILES['filePath']['tmp_name'];
         $contenttype = $_FILES['filePath']['type'];
