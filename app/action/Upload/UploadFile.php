@@ -131,7 +131,19 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
 
         // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
         $s3Conf = $um->getS3Conf();
-        var_dump($s3Conf);
+        
+        // アップデートするファイルの情報やS3の設定を配列に入れ込む
+        $uploadData = array(
+            "s3Conf" => array(
+                "bucket"     => $s3Conf[0],
+                "accessKey"  => $s3Conf[1],
+                "secretKey"  => $s3Conf[2]
+            ),
+            "fileName" => $_FILES['filePath']['tem_name'],
+            "keyName"  => $_FILES['filePath']['name']
+        );
+
+        var_dump($uploadData);
 
         // ファイルのアップデート
         //$um->uploadFileS3($uploadData);
