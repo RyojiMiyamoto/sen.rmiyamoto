@@ -86,11 +86,10 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function prepare()
     {
-        /*
+        /* 
         $uploaddir = '/var/www/html/sen.rmiyamoto/tempupload/';
         $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
         
-        var_dump($_FILES['filePath']['tmp_name']);
         // ファイルの移動
         if (move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
             var_dump("アップロードできました");
@@ -98,9 +97,7 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         else{
             var_dump("失敗");
         }
-        */     
-
-        /*
+        
         $keyname = $_FILES['filePath']['name'];				
         $filepath = $_FILES['filePath']['tmp_name'];
         $contenttype = $_FILES['filePath']['type'];
@@ -127,6 +124,20 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function perform()
     {
+        $uploaddir = '/var/www/html/sen.rmiyamoto/tempupload/';
+        $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
+
+        // ファイルの移動
+        if (move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
+            var_dump("アップロードできました");
+        }
+        else{
+            var_dump("失敗");
+        }
+
+
+        // 以降S3へのアップロード
+        
         $um = new Sample_UserManager();
 
         // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
@@ -139,14 +150,14 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
                 "accessKey"  => $s3Conf[1],
                 "secretKey"  => $s3Conf[2]
             ),
-            "fileName" => $_FILES['filePath']['tem_name'],
+            "fileName" => $uploadfile,
             "keyName"  => $_FILES['filePath']['name']
         );
 
         var_dump($uploadData);
 
         // ファイルのアップデート
-        //$um->uploadFileS3($uploadData);
+        $um->uploadFileS3($uploadData);
 
         return 'upload';
     }

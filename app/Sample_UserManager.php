@@ -75,7 +75,12 @@ class Sample_UserManager
                         $filename = $uploadData["fileName"];
                         $filebody = EntityBody::factory(fopen($filename, 'r'));
                         $filetype = $info->file($fileName);
- 
+
+                        var_dump($filename);
+                        var_dump($filebody);
+                        var_dump($filebody); 
+
+                        /*
                         $result = $s3->putObject(array(
                             'Bucket' => $uploadData["s3Conf"]["bucket"],
                             'Key'    => $uploadData["keyName"],
@@ -84,6 +89,7 @@ class Sample_UserManager
                             'StorageClass' => 'STANDARD',
                             'ACL' => CannedAcl::PUBLIC_READ,
                         ));
+                        */
 
                } catch(S3Exception $e){
                }
