@@ -1,10 +1,12 @@
 <?php
-
+ 
+use Aws\S3\S3Client;
 use Aws\Common\Aws; 
 use Aws\Common\Enum\Region; 
 use Aws\S3\Enum\CannedAcl; 
 use Aws\S3\Exception\S3Exception; 
-use Guzzle\Http\EntityBody; 
+use Guzzle\Http\EntityBody;
+use Guzzle\Http\Message\Request;
 
 class Sample_UserManager
 {
@@ -61,34 +63,22 @@ class Sample_UserManager
          */
         public function uploadFileS3($uploadData)
         {
-               try {
-                        // Amazon S3 クライアントのインスタンスを作成
-                        $s3 = Aws::factory(array(         
-                            'key'    => $uploadData["s3Conf"]["accessKey"],
-                            'secret' => $uploadData["s3Conf"]["secretKey"],
-                            'region' => Region::AP_NORTHEAST_1,
-                        ))->get('s3');
-                        
-                        $info = new FInfo(FILEINFO_MIME_TYPE);
 
-                        // Upload File
-                        $filename = $uploadData["fileName"];
-                        $filebody = EntityBody::factory(fopen($filename, 'r'));
-                        $filetype = $info->file($fileName);
- 
-                        $response = $s3->putObject(array(
-                            'Bucket' => $uploadData["s3Conf"]["bucket"],
-                            'Key'    => $uploadData["keyName"],
-                            'Body'   => $fileBody,
-                            'ContentType' => $fileType,
-                            'StorageClass' => 'STANDARD',
-                            'ACL' => CannedAcl::PUBLIC_READ,
-                        ));
-
-               } catch(S3Exception $e){
-               }
-               
-               return null;
+		$s3 = S3Client::factory(array(
+                       'key'    => $uploadData["s3Conf"]["accessKey"],
+                       'secret' => $uploadData["s3Conf"]["secretKey"],
+                       'region' => Region::AP_NORTHEAST_1
+                ));
+              
+                $result = $s3->putObject(array(
+                       'Bucket'       => $uploadData["s3Conf"]["bucket"],
+                       'Key'          => 'temp/' . $uploadData["fileInfo"]["fileName"],
+                       'SourceFile'   => $uploadData["fileInfo"]["filePath"],
+                       'ContentType'  => $uploadData["fileInfo"]["type"],
+                       'ACL'          => 'public-read',
+                       'StorageClass' => 'REDUCED_REDUNDANCY'
+                ));
+                echo $result['ObjectURL'];
         }
 
         /**
@@ -97,22 +87,7 @@ class Sample_UserManager
          */
         public function getS3Conf()
         {
-               return file("/var/www/html/sen.rmiyamoto/etc/s3.conf");
+        	return explode("\n", file_get_contents('/var/www/html/sen.rmiyamoto/conf/s3.conf'));
         }
-
-	// old
-	/*
-	public function auth($mailaddress, $password)
-        {
-                // このロジックはダミーです。
-                // 実際にはまともな認証処理を行う
-                if ($mailaddress != $password) {
-                        return Ethna::raiseNotice('メールアドレスまたはパスワードが正しくあり
-ません', E_SAMPLE_AUTH);
-                }
-                // 成功時はnullを返す
-                return null;
-        }
-	*/
 
 }
