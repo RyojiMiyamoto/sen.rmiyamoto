@@ -101,11 +101,8 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
 
         // ファイルの移動
-        if (move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
-            //var_dump("アップロードできました");
-        }
-        else{
-            //var_dump("失敗");
+        if (!move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
+            return  Ethna::raiseNotice('ファイルがアップロードできませんでした',E_SAMPLE_AUTH);
         }
 
 

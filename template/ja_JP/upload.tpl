@@ -1,4 +1,11 @@
 <form action="." method="post" enctype="multipart/form-data">
+{if count($errors)}
+  <ul>
+  {foreach from=$errors item=error}
+    <li>{$error}</li>
+  {/foreach}
+  </ul>
+{/if}
   <h2>写真のアップロード</h2>
   <h3>{$app.eventname}</h3>
   <Div Align="right">
