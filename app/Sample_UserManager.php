@@ -88,7 +88,14 @@ class Sample_UserManager
          */
         public function getS3Conf()
         {
-        	return explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
+        	$s3Conf = explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
+                $s3Acc = array(
+                    "bucket"     => str_replace("\r\n", '',$s3Conf[0]),
+                    "accessKey"  => str_replace("\r\n", '',$s3Conf[1]),
+                    "secretKey"  => str_replace("\r\n", '',$s3Conf[2])
+                );
+                
+                return $s3Acc;
         }
 }
 

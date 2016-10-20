@@ -116,9 +116,9 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         // アップデートするファイルの情報やS3の設定を配列に入れ込む
         $uploadData = array(
             "s3Conf" => array(
-                "bucket"     => str_replace("\r\n", '',$s3Conf[0]),
-                "accessKey"  => str_replace("\r\n", '',$s3Conf[1]),
-                "secretKey"  => str_replace("\r\n", '',$s3Conf[2])
+                "bucket"     => $s3Conf["bucket"],
+                "accessKey"  => $s3Conf["accessKey"],
+                "secretKey"  => $s3Conf["secretKey"]
             ),
             "fileInfo" => array(
                 "fileName"  => $_FILES['filePath']['name'],

@@ -53,6 +53,7 @@ class Sample_View_Editevent extends Sample_ViewClass
         
         // 認証キーをtplに渡す
         $this->af->setApp('eventkey', $eventKey);
+                
 
     }
 }
