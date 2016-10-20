@@ -64,7 +64,7 @@ class Sample_UserManager
          */
         public function uploadFileS3($uploadData)
         {
-
+                
 		$s3 = S3Client::factory(array(
                        'key'    => $uploadData["s3Conf"]["accessKey"],
                        'secret' => $uploadData["s3Conf"]["secretKey"],
@@ -79,8 +79,28 @@ class Sample_UserManager
                        'ACL'          => 'public-read',
                        'StorageClass' => 'REDUCED_REDUNDANCY'
                 ));
-                echo $result['ObjectURL'];
         }
+
+        /**
+         * アップロードされたファイル情報（イベント、ファイル名、ファイルパス）を扱うテーブル(photolist)に書き込み
+         *
+         */
+        public function addPhotoDataDB($uploadData, $backend)
+        {
+                $eventName = $uploadData["fileInfo"]["eventName"];
+                $fileName = $uploadData["fileInfo"]["fileName"];
+                $key = "https://" . $uploadData["s3Conf"]["bucket"] . ".s3.amazonaws.com/" . $eventName . "/" . $fileName;
+
+                // Dbに接続
+                $db = $backend->getDB();
+        
+	        // アップロードされたファイルの情報を写真テーブルに追加
+                $db->Query("INSERT INTO photolist (photo_event, photo_name, photo_key) VALUES('$eventName','$fileName','$key' )");
+ 
+                // 成功時はnullを返す
+		return null;
+        }
+
 
         /**
          * ファイル(s3.conf)からバケット名, アクセスキー, シークレットキーを取得する
@@ -88,7 +108,21 @@ class Sample_UserManager
          */
         public function getS3Conf()
         {
-        	return explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
+        	$s3ConfTemp = explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
+                $s3Conf = array(
+                    "bucket"     => str_replace("\r\n", '',$s3ConfTemp[0]),
+                    "accessKey"  => str_replace("\r\n", '',$s3ConfTemp[1]),
+                    "secretKey"  => str_replace("\r\n", '',$s3ConfTemp[2])
+                );
+                
+                return $s3Conf;
+        }
+
+        public function getUploadFilePathS3($eventName,$backend)
+        {
+                $result = "test";
+
+                return $result;
         }
 }
 
