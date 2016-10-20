@@ -73,7 +73,7 @@ class Sample_UserManager
               
                 $result = $s3->putObject(array(
                        'Bucket'       => $uploadData["s3Conf"]["bucket"],
-                       'Key'          => 'temp/' . $uploadData["fileInfo"]["fileName"],
+                       'Key'          => $uploadData["fileInfo"]["eventName"] . "/" . $uploadData["fileInfo"]["fileName"],
                        'SourceFile'   => $uploadData["fileInfo"]["filePath"],
                        'ContentType'  => $uploadData["fileInfo"]["type"],
                        'ACL'          => 'public-read',
