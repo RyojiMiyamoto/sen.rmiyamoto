@@ -64,7 +64,7 @@ class Sample_UserManager
          */
         public function uploadFileS3($uploadData)
         {
-
+                
 		$s3 = S3Client::factory(array(
                        'key'    => $uploadData["s3Conf"]["accessKey"],
                        'secret' => $uploadData["s3Conf"]["secretKey"],
@@ -79,8 +79,28 @@ class Sample_UserManager
                        'ACL'          => 'public-read',
                        'StorageClass' => 'REDUCED_REDUNDANCY'
                 ));
-                echo $result['ObjectURL'];
         }
+
+        /**
+         * アップロードされたファイル情報（イベント、ファイル名、ファイルパス）を扱うテーブル(photolist)に書き込み
+         *
+         */
+        public function addPhotoDataDB($uploadData, $backend)
+        {
+                $eventName = $uploadData["fileInfo"]["eventName"];
+                $fileName = $uploadData["fileInfo"]["fileName"];
+                $key = "https://" . $uploadData["s3Conf"]["bucket"] . ".s3.amazonaws.com/" . $eventName . "/" . $fileName;
+
+                // Dbに接続
+                $db = $backend->getDB();
+        
+	        // アップロードされたファイルの情報を写真テーブルに追加
+                $db->Query("INSERT INTO photolist (photo_event, photo_name, photo_key) VALUES('$eventName','$fileName','$key' )");
+ 
+                // 成功時はnullを返す
+		return null;
+        }
+
 
         /**
          * ファイル(s3.conf)からバケット名, アクセスキー, シークレットキーを取得する

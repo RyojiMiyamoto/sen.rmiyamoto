@@ -97,6 +97,8 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function perform()
     {
+        include('adodb/adodb.inc.php');
+
         $uploaddir = '/home/m17/m17-miya/sen.rmiyamoto/tempupload';
         $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
 
@@ -130,6 +132,12 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
 
         // ファイルのアップデート
         $um->uploadFileS3($uploadData);
+
+        // DBにアップロードしたファイル情報（イベント名、ファイル名、ファイルパス）を登録
+        $result = $um->addPhotoDataDB($uploadData ,$this->backend);
+        if (Ethna::isError($result)) {
+		$this->ae->addObject(null, $result);
+	}
 
         return 'upload';
     }
