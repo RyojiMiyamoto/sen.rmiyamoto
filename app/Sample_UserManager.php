@@ -88,14 +88,21 @@ class Sample_UserManager
          */
         public function getS3Conf()
         {
-        	$s3Conf = explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
-                $s3Acc = array(
-                    "bucket"     => str_replace("\r\n", '',$s3Conf[0]),
-                    "accessKey"  => str_replace("\r\n", '',$s3Conf[1]),
-                    "secretKey"  => str_replace("\r\n", '',$s3Conf[2])
+        	$s3ConfTemp = explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
+                $s3Conf = array(
+                    "bucket"     => str_replace("\r\n", '',$s3ConfTemp[0]),
+                    "accessKey"  => str_replace("\r\n", '',$s3ConfTemp[1]),
+                    "secretKey"  => str_replace("\r\n", '',$s3ConfTemp[2])
                 );
                 
-                return $s3Acc;
+                return $s3Conf;
+        }
+
+        public function getUploadFilePathS3($eventName,$backend)
+        {
+                $result = "test";
+
+                return $result;
         }
 }
 

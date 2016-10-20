@@ -54,6 +54,13 @@ class Sample_View_Editevent extends Sample_ViewClass
         // 認証キーをtplに渡す
         $this->af->setApp('eventkey', $eventKey);
                 
+        
+        // アップロードされた ファイルのパスを取得する
+        
+        $um = new Sample_UserManager();
+
+        // イベント内のファイルのパスをすべて取得する
+        $filePaths = $um->getUploadFilePathS3($eventName, $$this->backend);
 
     }
 }
