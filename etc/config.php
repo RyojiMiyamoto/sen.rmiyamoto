@@ -12,7 +12,7 @@ $config = array(
     // (to enable ethna_info and ethna_unittest, turn this true)
     'debug' => false,
     // 'dsn' => 'mysql://user:pass@unix+localhost/dbname',
-    'dsn' => 'pgsql://db_miyamoto:db_miyamoto@dbmiyamoto.camo7lymrz55.ap-northeast-1.rds.amazonaws.com/db_miyamoto',
+    'dsn' => 'pgsql://m17miya:sen.miyamotoryoji@gmail.com@m17-db.sen-sv.net/m17miya',
 
     // db
     // sample-1: single db

@@ -16,6 +16,7 @@ class Sample_UserManager
 		// DB接続
 		$db = $backend->getDB();
 		
+		
 		// DBからユーザーのメールアドレスを取得
 		$dbMail = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = '$mailaddress'");
 		// DB内のメールアドレスを取得できたか確認
@@ -89,5 +90,5 @@ class Sample_UserManager
         {
         	return explode("\n", file_get_contents('/var/www/html/sen.rmiyamoto/conf/s3.conf'));
         }
-
 }
+

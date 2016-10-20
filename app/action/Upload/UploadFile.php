@@ -97,7 +97,7 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function perform()
     {
-        $uploaddir = '/var/www/html/sen.rmiyamoto/tempupload/';
+        $uploaddir = '/home/m17/m17-miya/sen.rmiyamoto/tempupload';
         $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
 
         // ファイルの移動

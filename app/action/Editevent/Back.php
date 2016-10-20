@@ -98,7 +98,7 @@ class Sample_Action_EditeventBack extends Sample_ActionClass
      */
     public function perform()
     {
-        $this->session->set("eventname",""));
+        $this->session->set("eventname","");
         return 'userpage';
     }
 }
