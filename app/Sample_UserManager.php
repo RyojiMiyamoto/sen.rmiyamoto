@@ -88,7 +88,7 @@ class Sample_UserManager
          */
         public function getS3Conf()
         {
-        	return explode("\n", file_get_contents('/var/www/html/sen.rmiyamoto/conf/s3.conf'));
+        	return explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
         }
 }
 
