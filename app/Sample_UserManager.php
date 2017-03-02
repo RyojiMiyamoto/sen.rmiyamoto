@@ -19,7 +19,7 @@ class Sample_UserManager
 		
 		
 		// DBからユーザーのメールアドレスを取得
-		$dbMail = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = ?", array[$mailaddress]);
+		$dbMail = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = ?", array($mailaddress));
 		// DB内のメールアドレスを取得できたか確認
 		if($dbMail === false){
 			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
@@ -30,7 +30,7 @@ class Sample_UserManager
 		}
 		
 		// DBからユーザーのパスワードを取得
-		$dbPassHash = $db->GetRow("SELECT user_pass FROM userlist WHERE user_name = ?", array[$mailaddress]);
+		$dbPassHash = $db->GetRow("SELECT user_pass FROM userlist WHERE user_name = ?", array($mailaddress));
 		// DB内のパスワードが取得できたか
 		if($dbPassHash === false){
 			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
@@ -96,7 +96,7 @@ class Sample_UserManager
                 $db = $backend->getDB();
         
 	        // アップロードされたファイルの情報を写真テーブルに追加
-                $db->Query("INSERT INTO photolist (photo_event, photo_name, photo_key) VALUES(?,?,?)",array[$eventName, $fileName, $key]);
+                $db->Query("INSERT INTO photolist (photo_event, photo_name, photo_key) VALUES(?,?,?)",array($eventName, $fileName, $key));
  
                 // 成功時はnullを返す
 		return null;
@@ -130,7 +130,7 @@ class Sample_UserManager
                 $db = $backend->getDB();
 
                 // イベント名と関連するファイルパスを取得
-                $filePaths = $db->getAll("SELECT photo_name, photo_key FROM photolist WHERE photo_event = ? ORDER BY photo_id", array[$eventName]);	
+                $filePaths = $db->getAll("SELECT photo_name, photo_key FROM photolist WHERE photo_event = ? ORDER BY photo_id", array($eventName));	
                 // データを取得できたか確認
                 if ($filePaths === false){
                     return  null;
