@@ -10,6 +10,11 @@
     <p>ユーザー名 : {$app.username}</p>
   </Div>
   <Div Align="left">
+    {foreach from=$app.photoList item=photo}
+    <img src={$photo.photo_key} alt={$photo.photo_name} />
+    {/foreach}
+  </Div>
+  <Div Align="left">
     <p>
      <input type="submit" name="action_editevent_back" value="戻る">     
     </p>

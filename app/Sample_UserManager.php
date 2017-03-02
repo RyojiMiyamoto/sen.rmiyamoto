@@ -8,6 +8,7 @@ use Aws\S3\Exception\S3Exception;
 use Guzzle\Http\EntityBody;
 use Guzzle\Http\Message\Request;
 
+
 class Sample_UserManager
 {
 	// DBからの認証
@@ -125,7 +126,7 @@ class Sample_UserManager
          */
         public function getUploadFilePathsDB($eventName, $backend)
         {
-                // Dbに接続
+                // DBに接続
                 $db = $backend->getDB();
 
                 // イベント名と関連するファイルパスを取得

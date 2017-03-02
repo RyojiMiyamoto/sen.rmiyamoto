@@ -60,12 +60,16 @@ class Sample_View_Editevent extends Sample_ViewClass
         $um = new Sample_UserManager();
 
         // イベント内のファイルのパスと名前をすべて取得する
-        $filePaths = $um->getUploadFilePathsDB($eventName, $this->backend);
+        $photoList = $um->getUploadFilePathsDB($eventName, $this->backend);
         
         // ファイルが見つからなかった時（新規作成時）
-        if ($filePaths == null){
+        if ($photoList === null){
             $this->af->setApp('editevent_noFile','true');
+            return 'editevent';
         }
+
+	// ファイル（写真）のリストをtplに渡す
+        $this->af->setApp('photoList', $photoList);
 
     }
 }
