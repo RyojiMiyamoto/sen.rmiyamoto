@@ -8,6 +8,7 @@ use Aws\S3\Exception\S3Exception;
 use Guzzle\Http\EntityBody;
 use Guzzle\Http\Message\Request;
 
+
 class Sample_UserManager
 {
 	// DBからの認証
@@ -104,7 +105,7 @@ class Sample_UserManager
 
         /**
          * ファイル(s3.conf)からバケット名, アクセスキー, シークレットキーを取得する
-         * 
+         * getS3Conf
          */
         public function getS3Conf()
         {
@@ -118,11 +119,24 @@ class Sample_UserManager
                 return $s3Conf;
         }
 
-        public function getUploadFilePathS3($eventName,$backend)
-        {
-                $result = "test";
 
-                return $result;
+        /**
+         * アップロードされたファイルのパスを取得
+         * getUploadFilePathsDB
+         */
+        public function getUploadFilePathsDB($eventName, $backend)
+        {
+                // DBに接続
+                $db = $backend->getDB();
+
+                // イベント名と関連するファイルパスを取得
+                $filePaths = $db->getAll("SELECT photo_name, photo_key FROM photolist WHERE photo_event = '$eventName' ORDER BY photo_id");	
+                // データを取得できたか確認
+                if ($filePaths === false){
+                    return  null;
+                }
+                
+                return $filePaths;
         }
 }
 
