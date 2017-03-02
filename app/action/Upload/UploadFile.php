@@ -142,6 +142,9 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         // 一時ファイルの削除
         unlink($uploadfile);
         
+        // アップロード完了のフラグをtplに渡す
+        $this->af->setApp('uploadComp', true);
+
         return 'upload';
     }
 }

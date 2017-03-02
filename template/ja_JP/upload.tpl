@@ -13,6 +13,13 @@
   </Div>
   <Div Align="left">
     <table>
+      {if $app.uploadComp}
+      <tr>
+        <td>
+          ファイルをアップロードしました
+        </td>
+      </tr>
+      {/if}
       <tr>
         <td>
           <input type="file" name="filePath">
