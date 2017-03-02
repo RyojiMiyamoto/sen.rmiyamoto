@@ -120,7 +120,7 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
 
         // ユーザーテーブルを取得
         $mailaddress = $this->af->get('mailaddress');
-        $userdata = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = '$mailaddress'");
+        $userdata = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = ?",array[$mailaddress]);
 
 	
         // データを取得できたか確認
@@ -155,7 +155,7 @@ class Sample_Action_AdduserDo extends Sample_ActionClass
         $db = $this->backend->getDB();
         
 	// ユーザーテーブルに追加
-        $db->Query("INSERT INTO userlist (user_name, user_pass) VALUES('$addMail','$addPassHash' )");
+        $db->Query("INSERT INTO userlist (user_name, user_pass) VALUES(?,?)", array[$addMail, $addPassHash]);
 	
         return 'login';
     }

@@ -40,7 +40,7 @@ class Sample_View_Editevent extends Sample_ViewClass
         $db = $this->backend->getDB();
         
         // 認証キーを取得
-        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_name = '$eventName'");
+        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_name = ?", array[$eventName]);
         
         // 認証キーが取得できたか
         if($result === false){
