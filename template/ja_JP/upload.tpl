@@ -12,16 +12,17 @@
     <p>ユーザー名 : {$app.username}</p>
   </Div>
   <Div Align="left">
+    <table>
+      <tr>
+        <td>
+          <input type="file" name="filePath">
+          <input type="submit" name="action_upload_uploadFile" value="アップロード">
+        </td>
+      </tr>
+    </table>
+    <HR>
     <p>
      <input type="submit" name="action_upload_back" value="戻る">
     </p>
-  <HR>
-  <table>
-    <tr>
-      <td>
-        <input type="file" name="filePath">
-        <input type="submit" name="action_upload_uploadFile" value="アップロード">
-      </td>
-    </tr>
-  </table>
+  </Div>
 </form>
