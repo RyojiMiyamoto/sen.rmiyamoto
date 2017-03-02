@@ -100,7 +100,7 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         include('adodb/adodb.inc.php');
 
         $uploaddir = '/home/m17/m17-miya/sen.rmiyamoto/tempupload';
-        $uploadfile = $uploaddir . basename($_FILES['filePath']['name']);
+        $uploadfile = $uploaddir . '/'  . basename($_FILES['filePath']['name']);
 
         // ファイルの移動
         if (!move_uploaded_file($_FILES['filePath']['tmp_name'], $uploadfile)){
@@ -138,7 +138,10 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         if (Ethna::isError($result)) {
 		$this->ae->addObject(null, $result);
 	}
-
+        
+        // 一時ファイルの削除
+        unlink($uploadfile);
+        
         return 'upload';
     }
 }
