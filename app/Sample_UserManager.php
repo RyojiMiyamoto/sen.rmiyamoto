@@ -104,19 +104,15 @@ class Sample_UserManager
 
 
         /**
-         * ファイル(s3.conf)からバケット名, アクセスキー, シークレットキーを取得する
+         * ファイル(setting.php)からバケット名, アクセスキー, シークレットキーを取得する
          * getS3Conf
          */
-        public function getS3Conf()
+       public function gets3Conf()
         {
-        	$s3ConfTemp = explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
-                $s3Conf = array(
-                    "bucket"     => str_replace("\r\n", '',$s3ConfTemp[0]),
-                    "accessKey"  => str_replace("\r\n", '',$s3ConfTemp[1]),
-                    "secretKey"  => str_replace("\r\n", '',$s3ConfTemp[2])
-                );
-                
+                $settingFile = "/home/m17/m17-miya/sen.rmiyamoto/conf/setting.php";
+                $s3Conf = json_decode(file_get_contents($settingFile,null,null,5), true);
                 return $s3Conf;
+
         }
 
 
