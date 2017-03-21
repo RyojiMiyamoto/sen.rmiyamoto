@@ -1,0 +1,5 @@
+CREATE TABLE linklist (
+    link_id serial PRIMARY KEY,
+    user_id integer,
+    event_id integer
+);
