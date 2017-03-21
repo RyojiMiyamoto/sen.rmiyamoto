@@ -1,0 +1,5 @@
+CREATE TABLE photolist (
+    photo_id serial PRIMARY KEY,
+    photo_event serial references eventlist(event_id),
+    photo_name varchar(256)
+);
