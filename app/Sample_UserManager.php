@@ -11,7 +11,15 @@ use Guzzle\Http\Message\Request;
 
 class Sample_UserManager
 {
-	// DBからの認証
+	/**
+         * DBからのログイン認証
+         * 認証できていない際にはエラーメッセージを返す
+         *
+         * @param String $mailaddress         : ログインユーザーのメールアドレス(入力フォーム)
+         * @param String $password            : ログインユーザーのパスワード(入力フォーム)
+         * @param $this->backend $backend     
+         * @return null | Ethna::raiseNotice 
+         */
 	public function auth($mailaddress, $password, $backend)
 	{			
 		// DB接続
@@ -47,7 +55,9 @@ class Sample_UserManager
 
 	/**
 	 * ランダム文字列生成 (英数字)
-	 * $length: 生成する文字数
+         *
+	 * @param int $length    : 生成する文字数
+         * @return String $r_str : ランダムな英数字の羅列
 	 */
 	function makeRandStr($length) {
 		$str = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z"'));
@@ -61,7 +71,14 @@ class Sample_UserManager
 
         /**
          * S3にファイルのアップロードを行う
-         * $uploadData: s3の設定(バケット名, アクセスキー, シークレットキー), ファイル名, キー名
+         *
+         * @param String $uploadData["s3Conf"]["bucket"]      : s3_ブランケット
+         * @param String $uploadData["s3Conf"]["accessKey"]   : s3_アクセスキー
+         * @param String $uploadData["s3Conf"]["secretKey"]   : s3_シークレットキー
+         * @param String $uploadData["fileInfo"]["filePath"]  : ファイルパス
+         * @param String $uploadData["fileInfo"]["fileName"]  : ファイル名
+         * @param String $uploadData["fileInfo"]["type"]      : ファイルの種類
+         * @param String $uploadData["fileInfo"]["eventName"] : イベント名
          */
         public function uploadFileS3($uploadData)
         {
@@ -85,6 +102,11 @@ class Sample_UserManager
         /**
          * アップロードされたファイル情報（イベント、ファイル名、ファイルパス）を扱うテーブル(photolist)に書き込み
          *
+         * @param String $uploadData["s3Conf"]["bucket"]      : s3_ブランケット
+         * @param String $uploadData["fileInfo"]["fileName"]  : ファイル名
+         * @param String $uploadData["fileInfo"]["eventName"] : イベント名
+         * @param $this->backend $backend
+         * @return null
          */
         public function addPhotoDataDB($uploadData, $backend)
         {
@@ -92,7 +114,7 @@ class Sample_UserManager
                 $fileName = $uploadData["fileInfo"]["fileName"];
                 $key = "https://" . $uploadData["s3Conf"]["bucket"] . ".s3.amazonaws.com/" . $eventName . "/" . $fileName;
 
-                // Dbに接続
+                // DBに接続
                 $db = $backend->getDB();
         
 	        // アップロードされたファイルの情報を写真テーブルに追加
@@ -104,8 +126,9 @@ class Sample_UserManager
 
 
         /**
-         * ファイル(setting.php)からバケット名, アクセスキー, シークレットキーを取得する
-         * getS3Conf
+         * s3設定ファイル(setting.php)からバケット名, アクセスキー, シークレットキーを取得する
+         *
+         * @return String[] $s3Conf
          */
        public function gets3Conf()
         {
@@ -118,7 +141,10 @@ class Sample_UserManager
 
         /**
          * アップロードされたファイルのパスを取得
-         * getUploadFilePathsDB
+         * 
+         * @param String $eventName       : イベント名
+         * @param $this->backend $backend
+         * @return String[] $filePaths    : ファイルのパスの一覧
          */
         public function getUploadFilePathsDB($eventName, $backend)
         {
