@@ -25,6 +25,7 @@ class Sample_Form_UploadUploadFile extends Sample_ActionForm
            'name'      => 'ファイルパス',
            'required'  => true,
            'type'      => VAR_TYPE_FILE,
+           'file_type' => 'image/jpeg'
        ],
        /*
         *  TODO: Write form definition which this action uses.
@@ -86,6 +87,9 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
      */
     public function prepare()
     {
+        if ($this->af->validate() > 0){
+		return 'upload';
+	}
         return null;
     }
 

@@ -56,7 +56,7 @@ class Sample_UserManager
 	/**
 	 * ランダム文字列生成 (英数字)
          *
-	 * @param int $length    : 生成する文字数
+         * @param int $length    : 生成する文字数
          * @return String $r_str : ランダムな英数字の羅列
 	 */
 	function makeRandStr($length) {
