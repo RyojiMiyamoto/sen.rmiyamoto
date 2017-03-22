@@ -11,7 +11,7 @@
   </Div>
   <Div Align="left">
     {foreach from=$app.photoList item=photo}
-    <img src={$photo.photo_key} alt={$photo.photo_name} width=240 />
+    <img src={$photo.photo_url} width=240 />
     {/foreach}
   </Div>
   <Div Align="left">

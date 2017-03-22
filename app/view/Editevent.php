@@ -38,9 +38,15 @@ class Sample_View_Editevent extends Sample_ViewClass
         
         // DBに接続
         $db = $this->backend->getDB();
+
+
+        $um = new Sample_UserManager();        
         
+        // イベントIDを取得
+        $eventID = $um->getEventID($eventName, $this->backend);
+
         // 認証キーを取得
-        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_name = ?", array($eventName));
+        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_id = ?", array($eventID["event_id"]));
         
         // 認証キーが取得できたか
         if($result === false){
@@ -56,11 +62,12 @@ class Sample_View_Editevent extends Sample_ViewClass
                 
         
         // アップロードされた ファイルのパスを取得する
-        
-        $um = new Sample_UserManager();
 
-        // イベント内のファイルのパスと名前をすべて取得する
-        $photoList = $um->getUploadFilePathsDB($eventName, $this->backend);
+        // s3の設定データを取得
+        $s3Conf = $um->getS3Conf();
+
+        // イベント内のファイルのパスをすべて取得する
+        $photoList = $um->getUploadFilePathsDB($s3Conf ,$eventID["event_id"], $this->backend);
         
         // ファイルが見つからなかった時（新規作成時）
         if ($photoList === null){

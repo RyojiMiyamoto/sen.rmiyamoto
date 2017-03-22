@@ -111,11 +111,22 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
             return  Ethna::raiseNotice('ファイルがアップロードできませんでした',E_SAMPLE_AUTH);
         }
 
-
-        // 以降S3へのアップロード
+        // イベント名とファイル名を取得        
+        $eventName = $this->session->get('eventname');
+        $fileName = $_FILES['filePath']['name'];
         
         $um = new Sample_UserManager();
+        
+        // イベントIDの取得
+        $eventID = $um->getEventID($eventName, $this->backend);
 
+        // DBにアップロードしたファイル情報（イベントID、ファイル名）を登録しファイルIDを取得
+        $fileID = $um->addPhotoDataDB($eventID["event_id"], $fileName ,$this->backend);
+        if (Ethna::isError($fileID)) {
+                $this->ae->addObject(null, $fileID);
+        }
+
+        // 以降S3へのアップロード
         // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
         $s3Conf = $um->getS3Conf();
 
@@ -127,22 +138,16 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
                 "secretKey"  => $s3Conf["s3"]["secretKey"]
             ),
             "fileInfo" => array(
-                "fileName"  => $_FILES['filePath']['name'],
+                "fileID"    => $fileID["photo_id"],
                 "filePath"  => $uploadfile,
-                "type"      => $_FILES['filePath']['type'],
-                "eventName" => $this->session->get('eventname')
+                "type"      => 'image/jpeg',
+                "eventID"   => $eventID["event_id"]
             )
         );	
 
         // ファイルのアップデート
         $um->uploadFileS3($uploadData);
 
-        // DBにアップロードしたファイル情報（イベント名、ファイル名、ファイルパス）を登録
-        $result = $um->addPhotoDataDB($uploadData ,$this->backend);
-        if (Ethna::isError($result)) {
-		$this->ae->addObject(null, $result);
-	}
-        
         // 一時ファイルの削除
         unlink($uploadfile);
         
