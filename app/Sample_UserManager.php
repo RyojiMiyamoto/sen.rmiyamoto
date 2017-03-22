@@ -165,8 +165,7 @@ class Sample_UserManager
                 // 一時URLの生成
                 foreach($fileUrls as &$file){
                     $key = $eventID . "/" . $file['photo_id'] . ".jpg";
-                    //$file["photo_url"] = $s3->getObjectUrl($s3Conf["s3"]["bucket"], $key, '+10 minutes');
-                    $file['photo_url'] = $s3->getObjectUrl($s3Conf["s3"]["bucket"], $key);
+                    $file["photo_url"] = $s3->getObjectUrl($s3Conf["s3"]["bucket"], $key, '+10 minutes');
                 }
                 unset($file);
 
