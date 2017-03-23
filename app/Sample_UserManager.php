@@ -28,7 +28,7 @@ class Sample_UserManager
 		
 		
 		// DBからユーザーのメールアドレスを取得
-		$dbMail = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = ?", array($mailaddress));
+		$dbMail = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = ?", [$mailaddress]);
 		// DB内のメールアドレスを取得できたか確認
 		if($dbMail === false){
 			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
@@ -39,7 +39,7 @@ class Sample_UserManager
 		}
 		
 		// DBからユーザーのパスワードを取得
-		$dbPassHash = $db->GetRow("SELECT user_pass FROM userlist WHERE user_name = ?", array($mailaddress));
+		$dbPassHash = $db->GetRow("SELECT user_pass FROM userlist WHERE user_name = ?", [$mailaddress]);
 		// DB内のパスワードが取得できたか
 		if($dbPassHash === false){
 			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
@@ -84,20 +84,20 @@ class Sample_UserManager
         public function uploadFileS3($uploadData)
         {
                 
-		$s3 = S3Client::factory(array(
+		$s3 = S3Client::factory([
                        'key'    => $uploadData["s3Conf"]["accessKey"],
                        'secret' => $uploadData["s3Conf"]["secretKey"],
                        'region' => Region::AP_NORTHEAST_1
-                ));
+                ]);
               
-                $result = $s3->putObject(array(
+                $result = $s3->putObject([
                        'Bucket'       => $uploadData["s3Conf"]["bucket"],
                        'Key'          => $uploadData["fileInfo"]["eventID"] . "/" . $uploadData["fileInfo"]["fileID"] . ".jpg",
                        'SourceFile'   => $uploadData["fileInfo"]["filePath"],
                        'ContentType'  => $uploadData["fileInfo"]["type"],
                        'ACL'          => 'public-read',
                        'StorageClass' => 'REDUCED_REDUNDANCY'
-                ));
+                ]);
         }
 
         /**
@@ -113,7 +113,7 @@ class Sample_UserManager
                 $db = $backend->getDB();
                 
                 // イベント名からイベントIDの取得
-                $eventID = $db->getRow("SELECT event_id FROM eventlist WHERE event_name = ?", array($eventName));
+                $eventID = $db->getRow("SELECT event_id FROM eventlist WHERE event_name = ?", [$eventName]);
                  
                 return $eventID;
         }
@@ -148,7 +148,7 @@ class Sample_UserManager
                 $db = $backend->getDB();
 
                 // イベントIDと関連するファイルIDを取得
-                $fileUrls = $db->getAll("SELECT photo_id FROM photolist WHERE photo_event = ?", array($eventID));	
+                $fileUrls = $db->getAll("SELECT photo_id FROM photolist WHERE photo_event = ?", [$eventID]);	
                 
                 // データを取得できたか確認
                 if ($fileUrls === false){
@@ -156,11 +156,11 @@ class Sample_UserManager
                 }
                 
                 // s3に接続
-                $s3 = S3Client::factory(array(
+                $s3 = S3Client::factory([
                     'key'    => $s3Conf["s3"]["accessKey"],
                     'secret' => $s3Conf["s3"]["secretKey"],
                     'region' => Region::AP_NORTHEAST_1
-                ));
+                ]);
 
                 // 一時URLの生成
                 foreach($fileUrls as &$file){
@@ -186,10 +186,10 @@ class Sample_UserManager
                 $db = $backend->getDB();
 
                 // アップロードするファイルの情報を写真テーブル(photolist)に追加
-                $db->Query("INSERT INTO photolist (photo_event, photo_name) VALUES(?,?)", array($eventID, $fileName));
+                $db->Query("INSERT INTO photolist (photo_event, photo_name) VALUES(?,?)", [$eventID, $fileName]);
 
                 // 先ほど登録したファイルのIDを取得
-                $fileID = $db->getRow("SELECT photo_id FROM photolist WHERE photo_event = ? AND photo_name = ?", array($eventID, $fileName));
+                $fileID = $db->getRow("SELECT photo_id FROM photolist WHERE photo_event = ? AND photo_name = ?", [$eventID, $fileName]);
 
                 // ファイルIDを返す
                 return $fileID;

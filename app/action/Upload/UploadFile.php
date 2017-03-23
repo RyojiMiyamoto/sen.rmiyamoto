@@ -131,19 +131,19 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         $s3Conf = $um->getS3Conf();
 
         // アップデートするファイルの情報やS3の設定を配列に入れ込む
-        $uploadData = array(
-            "s3Conf" => array(
+        $uploadData = [
+            "s3Conf" => [
                 "bucket"     => $s3Conf["s3"]["bucket"],
                 "accessKey"  => $s3Conf["s3"]["accessKey"],
                 "secretKey"  => $s3Conf["s3"]["secretKey"]
-            ),
-            "fileInfo" => array(
+            ],
+            "fileInfo" => [
                 "fileID"    => $fileID["photo_id"],
                 "filePath"  => $uploadfile,
                 "type"      => 'image/jpeg',
                 "eventID"   => $eventID["event_id"]
-            )
-        );	
+            ]
+        ];	
 
         // ファイルのアップデート
         $um->uploadFileS3($uploadData);
