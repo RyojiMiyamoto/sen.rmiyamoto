@@ -46,7 +46,7 @@ class Sample_View_Editevent extends Sample_ViewClass
         $eventID = $um->getEventID($eventName, $this->backend);
 
         // 認証キーを取得
-        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_id = ?", array($eventID["event_id"]));
+        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_id = ?", [$eventID["event_id"]]);
         
         // 認証キーが取得できたか
         if($result === false){

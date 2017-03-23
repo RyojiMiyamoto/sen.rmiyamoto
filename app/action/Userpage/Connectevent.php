@@ -113,7 +113,7 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
         $db = $this->backend->getDB();
 
         // 同一の認証キーが存在するか取得
-        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_key = ?", array($fullCnctKey));
+        $result = $db->GetRow("SELECT event_key FROM eventlist WHERE event_key = ?", [$fullCnctKey]);
 
         // データを取得できたか確認
         if($result === false ){
@@ -153,7 +153,7 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
         $db = $this->backend->getDB();
 
         // ユーザーIDを取得
-        $userResult = $db->GetRow("SELECT user_id FROM userlist WHERE user_name = ?", array($userName));
+        $userResult = $db->GetRow("SELECT user_id FROM userlist WHERE user_name = ?", [$userName]);
 
         // ユーザーIDが取得できたか
         if($userResult === false){
@@ -165,7 +165,7 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
         $userID = intval(implode($userResult));
         
         // イベントIDを取得
-        $eventResult = $db->GetRow("SELECT event_id FROM eventlist WHERE event_key = ?", array($fullCnctKey));
+        $eventResult = $db->GetRow("SELECT event_id FROM eventlist WHERE event_key = ?", [$fullCnctKey]);
 
         // イベントIDを取得できたか
         if($eventResult === false){
@@ -177,14 +177,14 @@ class Sample_Action_UserpageConnectevent extends Sample_ActionClass
         $eventID = intval($eventResult['event_id']);
 
         // リンクリスト内に既に同一の登録がないかチェック
-        $result = $db->GetRow("SELECT * FROM linklist WHERE user_id = ? AND event_id = ?", array($userID, $eventID));
+        $result = $db->GetRow("SELECT * FROM linklist WHERE user_id = ? AND event_id = ?", [$userID, $eventID]);
         if ($result === false){
             $this->af->setApp('connect_Registered','true');
             return 'userpage';
         }
 
         // リンクリストに各ID・名前を登録する
-        $db->Query("INSERT INTO linklist (user_id, event_id) VALUES(?,?)", array($userID, $eventID));
+        $db->Query("INSERT INTO linklist (user_id, event_id) VALUES(?,?)", [$userID, $eventID]);
 
         return 'userpage';
     }
