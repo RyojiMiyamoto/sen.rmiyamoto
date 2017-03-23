@@ -20,6 +20,14 @@ class Sample_Form_EditeventGoUpload extends Sample_ActionForm
      *  @var    array   form definition.
      */
     public $form = array(  
+      
+      // イベント情報（IDと名前）
+      'event_id' => [
+          'type' => VAR_TYPE_INT,
+      ],
+      'event_name' => [
+          'type' => VAR_TYPE_STRING,
+      ],
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -98,6 +106,7 @@ class Sample_Action_EditeventGoUpload extends Sample_ActionClass
      */
     public function perform()
     {
+        $this->af->set('event_id',$this->af->setApp('event_name') );
         return 'upload';
     }
 }

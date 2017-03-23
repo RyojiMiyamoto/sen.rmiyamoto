@@ -34,7 +34,7 @@ class Sample_View_Userpage extends Sample_ViewClass
         $db = $this->backend->getDB();
 
         // ユーザーに関連付けされているイベントを取得
-        $userLinkEventList = $db->getAll("SELECT eventlist.event_name FROM linklist JOIN userlist ON linklist.user_id = userlist.user_id JOIN eventlist ON linklist.event_id = eventlist.event_id WHERE user_name = '$username' ORDER BY eventlist.event_name");	
+        $userLinkEventList = $db->getAll("SELECT eventlist.event_id ,eventlist.event_name FROM linklist JOIN userlist ON linklist.user_id = userlist.user_id JOIN eventlist ON linklist.event_id = eventlist.event_id WHERE user_name = ? ORDER BY eventlist.event_id",[$username]);	
 
         // データを取得できたか確認
         if ($userLinkEventList === false){
