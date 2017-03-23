@@ -21,6 +21,7 @@ class Sample_Form_EditeventGoUpload extends Sample_ActionForm
      */
     public $form = array(  
       
+      
       // イベント情報（IDと名前）
       'event_id' => [
           'type' => VAR_TYPE_INT,
@@ -106,7 +107,6 @@ class Sample_Action_EditeventGoUpload extends Sample_ActionClass
      */
     public function perform()
     {
-        $this->af->set('event_id',$this->af->setApp('event_name') );
         return 'upload';
     }
 }

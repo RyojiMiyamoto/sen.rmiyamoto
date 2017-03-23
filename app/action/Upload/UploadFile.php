@@ -21,12 +21,30 @@ class Sample_Form_UploadUploadFile extends Sample_ActionForm
      *  @var    array   form definition.
      */
     public $form = array(
+       
        'filePath' => [
            'name'      => 'ファイルパス',
            'required'  => true,
            'type'      => VAR_TYPE_FILE,
            'file_type' => 'image/jpeg'
        ],
+
+       'userID' => [
+           'type' => VAR_TYPE_INT  
+       ],
+
+       'userName' => [
+           'type' => VAR_TYPE_STRING
+       ],
+
+       'eventID' => [
+           'type' => VAR_TYPE_INT
+       ],
+
+       'eventName' => [
+           'type' => VAR_TYPE_STRING
+       ],
+       
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
@@ -115,16 +133,19 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         }
 
         // イベント名とファイル名を取得        
-        $eventName = $this->session->get('eventname');
+        //$eventName = $this->session->get('eventname');
+        $eventName = $_POST["eventName"];
         $fileName = $_FILES['filePath']['name'];
         
         $um = new Sample_UserManager();
         
         // イベントIDの取得
-        $eventID = $um->getEventID($eventName, $this->backend);
+        //$eventID = $um->getEventID($eventName, $this->backend);
+        $eventID = $_POST["eventID"];
 
         // DBにアップロードしたファイル情報（イベントID、ファイル名）を登録しファイルIDを取得
-        $fileID = $um->addPhotoDataDB($eventID["event_id"], $fileName ,$this->backend);
+        //$fileID = $um->addPhotoDataDB($eventID["event_id"], $fileName ,$this->backend);
+        $fileID = $um->addPhotoDataDB($eventID, $fileName ,$this->backend);
         if (Ethna::isError($fileID)) {
                 $this->ae->addObject(null, $fileID);
         }
@@ -137,7 +158,8 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
                 "fileID"    => $fileID["photo_id"],
                 "filePath"  => $uploadfile,
                 "type"      => 'image/jpeg',
-                "eventID"   => $eventID["event_id"]
+                //"eventID"   => $eventID["event_id"]
+                "eventID"   => $eventID
             ]
         ];	
 

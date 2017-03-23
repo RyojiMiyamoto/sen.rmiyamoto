@@ -20,6 +20,21 @@ class Sample_Form_UploadBack extends Sample_ActionForm
      *  @var    array   form definition.
      */
     public $form = array(
+       'userID' => [
+           'type' => VAR_TYPE_INT
+       ],
+
+       'userName' => [
+           'type' => VAR_TYPE_STRING
+       ],
+
+       'eventID' => [
+           'type' => VAR_TYPE_INT
+       ],
+
+       'eventName' => [
+           'type' => VAR_TYPE_STRING
+       ],
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
