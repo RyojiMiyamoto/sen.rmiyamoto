@@ -125,9 +125,12 @@ class Sample_UserManager
          */
         public function gets3Conf()
         {
+                require_once("/home/m17/m17-miya/sen.rmiyamoto/conf/setting.php");
+                /*
                 $settingFile = "/home/m17/m17-miya/sen.rmiyamoto/conf/setting.php";
                 $s3Conf = json_decode(file_get_contents($settingFile,null,null,5), true);
                 return $s3Conf;
+                */
 
         }
 
@@ -135,12 +138,12 @@ class Sample_UserManager
         /**
          * アップロードされたファイルのパスを取得
          *
-         * @param String $s3Conf["s3"]["bucket"]    : s3_ブランケット
-         * @param String $s3Conf["s3"]["accessKey"] : s3_アクセスキー
-         * @param String $s3Conf["s3"]["secretKey"] : s3_シークレットキー
-         * @param String $eventID                   : イベントID
+         * @param String $s3Conf["bucket"]    : s3_ブランケット
+         * @param String $s3Conf["accessKey"] : s3_アクセスキー
+         * @param String $s3Conf["secretKey"] : s3_シークレットキー
+         * @param String $eventID             : イベントID
          * @param $this->backend $backend
-         * @return String[] $filePaths              : ファイルのパスの一覧
+         * @return String[] $filePaths        : ファイルのパスの一覧
          */
         public function getUploadFilePathsDB($s3Conf ,$eventID, $backend)
         {
@@ -157,15 +160,15 @@ class Sample_UserManager
                 
                 // s3に接続
                 $s3 = S3Client::factory([
-                    'key'    => $s3Conf["s3"]["accessKey"],
-                    'secret' => $s3Conf["s3"]["secretKey"],
+                    'key'    => $s3Conf["accessKey"],
+                    'secret' => $s3Conf["secretKey"],
                     'region' => Region::AP_NORTHEAST_1
                 ]);
 
                 // 一時URLの生成
                 foreach($fileUrls as &$file){
                     $key = $eventID . "/" . $file['photo_id'] . ".jpg";
-                    $file["photo_url"] = $s3->getObjectUrl($s3Conf["s3"]["bucket"], $key, '+10 minutes');
+                    $file["photo_url"] = $s3->getObjectUrl($s3Conf["bucket"], $key, '+10 minutes');
                 }
                 unset($file);
 

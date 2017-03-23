@@ -23,7 +23,10 @@ class Sample_View_Editevent extends Sample_ViewClass
     public function preforward()
     {
         include('adodb/adodb.inc.php');
-        
+
+        // s3の設定情報を取得
+        include('/home/m17/m17-miya/sen.rmiyamoto/conf/setting.php');        
+
         // sessionからユーザー名とイベント名を取得しtplに渡す
         $this->af->setApp('username', $this->session->get('username'));
         $this->af->setApp('eventname', $this->session->get('eventname'));
@@ -62,9 +65,6 @@ class Sample_View_Editevent extends Sample_ViewClass
                 
         
         // アップロードされた ファイルのパスを取得する
-
-        // s3の設定データを取得
-        $s3Conf = $um->getS3Conf();
 
         // イベント内のファイルのパスをすべて取得する
         $photoList = $um->getUploadFilePathsDB($s3Conf ,$eventID["event_id"], $this->backend);

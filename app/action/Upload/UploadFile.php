@@ -102,6 +102,9 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
     public function perform()
     {
         include('adodb/adodb.inc.php');
+        
+        // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
+        include_once('/home/m17/m17-miya/sen.rmiyamoto/conf/setting.phg');
 
         $uploaddir = '/home/m17/m17-miya/sen.rmiyamoto/tempupload';
         $uploadfile = $uploaddir . '/'  . basename($_FILES['filePath']['name']);
@@ -127,16 +130,9 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         }
 
         // 以降S3へのアップロード
-        // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
-        $s3Conf = $um->getS3Conf();
-
         // アップデートするファイルの情報やS3の設定を配列に入れ込む
         $uploadData = [
-            "s3Conf" => [
-                "bucket"     => $s3Conf["s3"]["bucket"],
-                "accessKey"  => $s3Conf["s3"]["accessKey"],
-                "secretKey"  => $s3Conf["s3"]["secretKey"]
-            ],
+            $s3Conf,
             "fileInfo" => [
                 "fileID"    => $fileID["photo_id"],
                 "filePath"  => $uploadfile,
