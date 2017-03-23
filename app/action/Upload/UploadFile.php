@@ -104,7 +104,7 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         include('adodb/adodb.inc.php');
         
         // S3の設定(バケット,　アクセスキー,　シークレットキー)を取得
-        include_once('/home/m17/m17-miya/sen.rmiyamoto/conf/setting.phg');
+        include_once('/home/m17/m17-miya/sen.rmiyamoto/conf/setting.php');
 
         $uploaddir = '/home/m17/m17-miya/sen.rmiyamoto/tempupload';
         $uploadfile = $uploaddir . '/'  . basename($_FILES['filePath']['name']);
@@ -128,11 +128,11 @@ class Sample_Action_UploadUploadFile extends Sample_ActionClass
         if (Ethna::isError($fileID)) {
                 $this->ae->addObject(null, $fileID);
         }
-
+        
         // 以降S3へのアップロード
         // アップデートするファイルの情報やS3の設定を配列に入れ込む
         $uploadData = [
-            $s3Conf,
+            "s3Conf" => $s3Conf,
             "fileInfo" => [
                 "fileID"    => $fileID["photo_id"],
                 "filePath"  => $uploadfile,

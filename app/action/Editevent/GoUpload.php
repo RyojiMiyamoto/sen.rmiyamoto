@@ -19,7 +19,7 @@ class Sample_Form_EditeventGoUpload extends Sample_ActionForm
      *  @access protected
      *  @var    array   form definition.
      */
-    public $form = array(
+    public $form = array(  
        /*
         *  TODO: Write form definition which this action uses.
         *  @see http://ethna.jp/ethna-document-dev_guide-form.html
