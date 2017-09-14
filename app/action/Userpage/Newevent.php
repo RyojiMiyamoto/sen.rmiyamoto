@@ -118,7 +118,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 
         // ユーザーテーブルを取得
         $newEventName = $this->af->get('newEventName');
-        $eventList = $db->GetRow("SELECT event_name FROM eventlist WHERE event_name = '$newEventName'");
+        $eventList = $db->GetRow("SELECT event_name FROM eventlist WHERE event_name = ?", [$newEventName]);
 
         // データを取得できたか確認
         if($eventList === false){
@@ -169,7 +169,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 	    $key = $um->makeRandStr(4) . "-" . $um->makeRandStr(4) . "-" . $um->makeRandStr(4);
 	    
             // テーブル上に同じ認証キーがないかチェック
-            $chkKey = $db->GetRow("SELECT event_key FROM eventlist WHERE event_key = '$key'");
+            $chkKey = $db->GetRow("SELECT event_key FROM eventlist WHERE event_key = ?", [$key]);
             
             // データを取得できたか確認
             if($chkKey === false){
@@ -188,7 +188,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
 
         
         // イベントリストに追加
-        $db->Query("INSERT INTO eventlist (event_name, event_key, event_pass) VALUES('$addEventName','$addEventKey','$addEventPassHash' )");
+        $db->Query("INSERT INTO eventlist (event_name, event_key, event_pass) VALUES(?,?,?)",[$addEventName, $addEventKey, $addEventPassHash]);
 
         // イベント追加以降はイベントと登録したユーザーの紐づけを行う
 
@@ -196,7 +196,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
         $userName = $this->session->get('username');
 
         // ユーザーIDを取得
-        $userResult = $db->GetRow("SELECT user_id FROM userlist WHERE user_name = '$userName'");
+        $userResult = $db->GetRow("SELECT user_id FROM userlist WHERE user_name = ?" ,[$userName]);
 
         // ユーザーIDが取得できたか
         if($userResult === false){
@@ -208,7 +208,7 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
         $userID = intval(implode($userResult));
         
         // イベントIDを取得
-        $eventResult = $db->GetRow("SELECT event_id FROM eventlist WHERE event_key = '$addEventKey'");
+        $eventResult = $db->GetRow("SELECT event_id FROM eventlist WHERE event_key = ?", [$addEventKey]);
         
         // イベントIDを取得できたか
         if($eventResult === false){
@@ -220,13 +220,14 @@ class Sample_Action_UserpageNewevent extends Sample_ActionClass
         $eventID = intval($eventResult['event_id']);
 
         // リンクリスト内に既に同一の登録がないかチェック
-        if ($db->GetRow("SELECT * FROM linklist WHERE user_id = '$userID' AND event_id = '$eventID'") === false){
+        $result = $db->GetRow("SELECT * FROM linklist WHERE user_id = ? AND event_id = ? ", [$userID, $eventID]);               
+        if ($result === false){
             $this->af->setApp('new_Registered','true');
             return 'userpage';
         }
 
         // リンクリストに各ID・名前を登録する
-        $db->Query("INSERT INTO linklist (user_id, event_id) VALUES('$userID','$eventID' )");
+        $db->Query("INSERT INTO linklist (user_id, event_id) VALUES(?,?)", [$userID, $eventID]);
         
         
         // セッションにイベント名を記録させる

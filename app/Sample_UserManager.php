@@ -1,7 +1,8 @@
 <?php
- 
+
+
 use Aws\S3\S3Client;
-use Aws\Common\Aws; 
+use Aws\Common\Aws;
 use Aws\Common\Enum\Region; 
 use Aws\S3\Enum\CannedAcl; 
 use Aws\S3\Exception\S3Exception; 
@@ -11,7 +12,15 @@ use Guzzle\Http\Message\Request;
 
 class Sample_UserManager
 {
-	// DBからの認証
+	/**
+         * DBからのログイン認証
+         * 認証できていない際にはエラーメッセージを返す
+         *
+         * @param String $mailaddress         : ログインユーザーのメールアドレス(入力フォーム)
+         * @param String $password            : ログインユーザーのパスワード(入力フォーム)
+         * @param $this->backend $backend     
+         * @return null | Ethna::raiseNotice 
+         */
 	public function auth($mailaddress, $password, $backend)
 	{			
 		// DB接続
@@ -19,7 +28,7 @@ class Sample_UserManager
 		
 		
 		// DBからユーザーのメールアドレスを取得
-		$dbMail = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = '$mailaddress'");
+		$dbMail = $db->GetRow("SELECT user_name FROM userlist WHERE user_name = ?", [$mailaddress]);
 		// DB内のメールアドレスを取得できたか確認
 		if($dbMail === false){
 			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
@@ -30,7 +39,7 @@ class Sample_UserManager
 		}
 		
 		// DBからユーザーのパスワードを取得
-		$dbPassHash = $db->GetRow("SELECT user_pass FROM userlist WHERE user_name = '$mailaddress'");
+		$dbPassHash = $db->GetRow("SELECT user_pass FROM userlist WHERE user_name = ?", [$mailaddress]);
 		// DB内のパスワードが取得できたか
 		if($dbPassHash === false){
 			return  Ethna::raiseNotice('データベースに接続できません',E_SAMPLE_AUTH);
@@ -47,7 +56,9 @@ class Sample_UserManager
 
 	/**
 	 * ランダム文字列生成 (英数字)
-	 * $length: 生成する文字数
+         *
+         * @param int $length    : 生成する文字数
+         * @return String $r_str : ランダムな英数字の羅列
 	 */
 	function makeRandStr($length) {
 		$str = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z"'));
@@ -61,82 +72,132 @@ class Sample_UserManager
 
         /**
          * S3にファイルのアップロードを行う
-         * $uploadData: s3の設定(バケット名, アクセスキー, シークレットキー), ファイル名, キー名
+         *
+         * @param String $uploadData["s3Conf"]["bucket"]      : s3_ブランケット
+         * @param String $uploadData["s3Conf"]["accessKey"]   : s3_アクセスキー
+         * @param String $uploadData["s3Conf"]["secretKey"]   : s3_シークレットキー
+         * @param String $uploadData["fileInfo"]["filePath"]  : ファイルパス
+         * @param String $uploadData["fileInfo"]["fileID"]    : ファイルID
+         * @param String $uploadData["fileInfo"]["type"]      : ファイルの種類
+         * @param SS3Clienttring $uploadData["fileInfo"]["eventID"]   : イベントID
          */
         public function uploadFileS3($uploadData)
         {
                 
-		$s3 = S3Client::factory(array(
+		$s3 = S3Client::factory([
                        'key'    => $uploadData["s3Conf"]["accessKey"],
                        'secret' => $uploadData["s3Conf"]["secretKey"],
                        'region' => Region::AP_NORTHEAST_1
-                ));
+                ]);
               
-                $result = $s3->putObject(array(
+                $result = $s3->putObject([
                        'Bucket'       => $uploadData["s3Conf"]["bucket"],
-                       'Key'          => $uploadData["fileInfo"]["eventName"] . "/" . $uploadData["fileInfo"]["fileName"],
+                       'Key'          => $uploadData["fileInfo"]["eventID"] . "/" . $uploadData["fileInfo"]["fileID"] . ".jpg",
                        'SourceFile'   => $uploadData["fileInfo"]["filePath"],
                        'ContentType'  => $uploadData["fileInfo"]["type"],
                        'ACL'          => 'public-read',
                        'StorageClass' => 'REDUCED_REDUNDANCY'
-                ));
+                ]);
         }
 
         /**
-         * アップロードされたファイル情報（イベント、ファイル名、ファイルパス）を扱うテーブル(photolist)に書き込み
+         * イベント名からイベントIDを取得する
          *
+         * @param String $eventName
+         * @param $this->backend $backend
+         * @return int $eventID
          */
-        public function addPhotoDataDB($uploadData, $backend)
+        public function getEventID($eventName, $backend)
         {
-                $eventName = $uploadData["fileInfo"]["eventName"];
-                $fileName = $uploadData["fileInfo"]["fileName"];
-                $key = "https://" . $uploadData["s3Conf"]["bucket"] . ".s3.amazonaws.com/" . $eventName . "/" . $fileName;
-
-                // Dbに接続
+                // DBに接続
                 $db = $backend->getDB();
-        
-	        // アップロードされたファイルの情報を写真テーブルに追加
-                $db->Query("INSERT INTO photolist (photo_event, photo_name, photo_key) VALUES('$eventName','$fileName','$key' )");
- 
-                // 成功時はnullを返す
-		return null;
-        }
-
-
-        /**
-         * ファイル(s3.conf)からバケット名, アクセスキー, シークレットキーを取得する
-         * getS3Conf
-         */
-        public function getS3Conf()
-        {
-        	$s3ConfTemp = explode("\n", file_get_contents('/home/m17/m17-miya/sen.rmiyamoto/conf/s3.conf'));
-                $s3Conf = array(
-                    "bucket"     => str_replace("\r\n", '',$s3ConfTemp[0]),
-                    "accessKey"  => str_replace("\r\n", '',$s3ConfTemp[1]),
-                    "secretKey"  => str_replace("\r\n", '',$s3ConfTemp[2])
-                );
                 
+                // イベント名からイベントIDの取得
+                $eventID = $db->getRow("SELECT event_id FROM eventlist WHERE event_name = ?", [$eventName]);
+                 
+                return $eventID;
+        }
+        
+        /**
+         * s3設定ファイル(setting.php)からバケット名, アクセスキー, シークレットキーを取得する
+         *
+         * @return String[] $s3Conf
+         */
+        public function gets3Conf()
+        {
+                require_once("/home/m17/m17-miya/sen.rmiyamoto/conf/setting.php");
+                /*
+                $settingFile = "/home/m17/m17-miya/sen.rmiyamoto/conf/setting.php";
+                $s3Conf = json_decode(file_get_contents($settingFile,null,null,5), true);
                 return $s3Conf;
+                */
+
         }
 
 
         /**
          * アップロードされたファイルのパスを取得
-         * getUploadFilePathsDB
+         *
+         * @param String $s3Conf["bucket"]    : s3_ブランケット
+         * @param String $s3Conf["accessKey"] : s3_アクセスキー
+         * @param String $s3Conf["secretKey"] : s3_シークレットキー
+         * @param String $eventID             : イベントID
+         * @param $this->backend $backend
+         * @return String[] $filePaths        : ファイルのパスの一覧
          */
-        public function getUploadFilePathsDB($eventName, $backend)
+        public function getUploadFilePathsDB($s3Conf ,$eventID, $backend)
         {
                 // DBに接続
                 $db = $backend->getDB();
 
-                // イベント名と関連するファイルパスを取得
-                $filePaths = $db->getAll("SELECT photo_name, photo_key FROM photolist WHERE photo_event = '$eventName' ORDER BY photo_id");	
+                // イベントIDと関連するファイルIDを取得
+                $fileUrls = $db->getAll("SELECT photo_id FROM photolist WHERE photo_event = ?", [$eventID]);	
+                
                 // データを取得できたか確認
-                if ($filePaths === false){
+                if ($fileUrls === false){
                     return  null;
                 }
                 
-                return $filePaths;
+                // s3に接続
+                $s3 = S3Client::factory([
+                    'key'    => $s3Conf["accessKey"],
+                    'secret' => $s3Conf["secretKey"],
+                    'region' => Region::AP_NORTHEAST_1
+                ]);
+
+                // 一時URLの生成
+                foreach($fileUrls as &$file){
+                    $key = $eventID . "/" . $file['photo_id'] . ".jpg";
+                    $file["photo_url"] = $s3->getObjectUrl($s3Conf["bucket"], $key, '+10 minutes');
+                }
+                unset($file);
+
+                return $fileUrls;
         }
+
+        /**
+         * アップロードするファイル情報（イベント、ファイル名）を扱うテーブル(photolist)に書き込み、ファイルIDを返す
+         *
+         * @param String $eventID         : イベントID
+         * @param String $fileName        : ファイル名
+         * @param $this->backend $backend
+         * @return int $fileID            : ファイルID
+         */
+        public function addPhotoDataDB($eventID, $fileName, $backend)
+        {
+                // DBに接続
+                $db = $backend->getDB();
+
+                // アップロードするファイルの情報を写真テーブル(photolist)に追加
+                $db->Query("INSERT INTO photolist (photo_event, photo_name) VALUES(?,?)", [$eventID, $fileName]);
+
+                // 先ほど登録したファイルのIDを取得
+                $fileID = $db->getRow("SELECT photo_id FROM photolist WHERE photo_event = ? AND photo_name = ?", [$eventID, $fileName]);
+
+                // ファイルIDを返す
+                return $fileID;
+        }
+        
+
 }
 

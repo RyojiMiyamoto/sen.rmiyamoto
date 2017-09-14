@@ -25,6 +25,12 @@
           <input type="file" name="filePath">
           <input type="submit" name="action_upload_uploadFile" value="アップロード">
         </td>
+        <td>
+          <input type="hidden" name="event_id" value={$app.userid}>
+          <input type="hidden" name="event_name" value={$app.username}>
+          <input type="hidden" name="event_id" value={$app.eventid}>
+          <input type="hidden" name="event_name" value={$app.eventname}>
+        </td>
       </tr>
     </table>
     <HR>
